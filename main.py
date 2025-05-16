@@ -1,6 +1,6 @@
 from time import sleep
 from RAM import RAM
-from CPU import CPU
+from CPU import CPU,num
 from GPU import GPU
 from register import STPR,STACK,CLK
 from assemb import mac
@@ -30,7 +30,8 @@ while True:
     # gpu.display()
     # sleep(0.01)
     # input()
-    # print("r",end="")
+
+    print(f"running! addr: {num(cpu.marx.val)}",end="\r")
 gpu.display(())
 cpu.display(clk,stp,ram,stk)
 # print(ram.mem[len(mac)-1].val)

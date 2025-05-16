@@ -1,27 +1,15 @@
 import allVars as av
-def byt(n,lon=False):
+def byt(n):
     if n<0:
         return "0"*8
     s=""
     
-    s2=""
-    if n>256:
-        lon=True
-        for i in range(15,7,-1):
-            if 2**i<=n:
-                s2+="1"
-                # n-=2**i
-            else:s2+="0"
-    # print(n)
-    for i in range(7,-1,-1):
+    for i in range(16,-1,-1):
         if 2**i<=n:
             s+="1"
             n-=2**i
         else:
             s+="0"
-    # print(buy)
-    # if lon:return [s2,s]
-    # else:
     return s
 asm=[]
 """

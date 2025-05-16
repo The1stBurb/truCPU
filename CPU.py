@@ -24,7 +24,7 @@ def byt(n):
         return "0"*8
     s=""
     # print(n)
-    for i in range(7,-1,-1):
+    for i in range(15,-1,-1):
         if 2**i<=n:
             s+="1"
             n-=2**i
@@ -225,7 +225,7 @@ class CPU:
         # print(op,a,b)
         if op==self.inc:
             # print(num(a),num(a)+1)
-            if num(a)==255:
+            if num(a)>=2**16:
                 self.fc="1"
             return byt(num(a)+1)
         elif op==self.dec:
@@ -242,7 +242,7 @@ class CPU:
             return "0"+a[:len(a)-1]
         elif op==self.addop:
             # input("add")
-            if num(a)+num(b)>255:
+            if num(a)+num(b)>=2**166:
                 self.fc="1"
             return byt(num(a)+num(b))
         elif op==self.subop:
@@ -257,7 +257,7 @@ class CPU:
             return "".join([XOR(a[i],b[i]) for i in range(a)])
         elif op==self.cmpop:
             # print(self.fc+self.fa+self.fe+self.fz)
-            self.fc="1" if num(a)+num(b)>2**8 else "0"
+            self.fc="1" if num(a)+num(b)>2**16 else "0"
             self.fa="1" if num(a)>num(b) else "0"
             self.fe="1" if num(a)==num(b) else "0"
             self.fz="0" if "1" in a else "1"

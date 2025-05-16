@@ -7,7 +7,7 @@ def byts(byte):
     return s
 class REG:
     def __init__(self,always_set=False):
-        self.val=str("0"*8)
+        self.val=str("0"*16)
         self.als=int(always_set)
         self.s=self.als
         self.e=0
