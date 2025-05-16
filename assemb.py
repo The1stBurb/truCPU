@@ -1,4 +1,4 @@
-from code import asembly,byt
+from coding import asembly,byt
 ops={
     "nop":0,
     "lda":2,"ldb":3,"ldav":4,"ldbv":5,"sta":6,"stb":7,"lxa":8,"lxb":9,"lya":10,"lyb":11,"lva":12,"lvb":13,"lxv":14,"lyv":15,"lvv":16,

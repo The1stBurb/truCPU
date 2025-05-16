@@ -84,6 +84,6 @@ class GPU:
                 m=self.mem[i*scrnWdth+j].val
                 str(self.mem[i*scrnWdth+j])
                 # if "1" in m:print(m)
-                s+=("\033[40m \033[0m" if "1" in m else ".")
+                s+=("\033[47m \033[0m" if "1" in m else ".")
             print("|"+s+"|")
         # print(self.ad,num(self.my)*scrnWdth+num(self.mx))
