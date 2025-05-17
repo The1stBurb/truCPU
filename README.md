@@ -9,9 +9,10 @@ im gonna make it a wee bit more realistic sometime...
 really badly emulates a GPU and screen  
 this is big need upgrade  
 VRAM is seperate from RAM  
-VRAM is technically 256*256 (64 KiB). however, the screen is only 68 px wide and 17 px tall. (1 px is one character)  
+VRAM is technically 256*256 bytes (64 KiB). however, the screen is only 68 px wide and 17 px tall. (1 px is one character)  
 # RAM.py
 this holds ram class  
+RAM is also 256*256 bytes (64 Kib)  
 this one should be ok  
 # allVars.py  
 holds any vars that are accessed in multiple files  
