@@ -1,5 +1,13 @@
-yea, idk  
-this is kinda a project of me wanting to know what i can do/if i can do this  
+My biggest project yet!  
+Overview:  
+- RAM w/ 64Kib
+- GPU w/ VRAM
+- Assembler
+- Personal Assembly Language - "Burbx16"
+- Screen
+- 3GL Programming Language - "BurbLang" inDev    
+  
+this is kinda a project of me wanting to know what i can do/if i can do this.  
 dont ask, run main, edit code string in coding file  
 its 16-bit  
 # CPU.py  
