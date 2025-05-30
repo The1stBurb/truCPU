@@ -1,0 +1,35 @@
+int1-keyboard,int2-mouse
+nop - do nothing
+ld(a or b) addr - set a or b from the address in ram
+st(a or b) addr - set the address in ram from a or b
+not(a or b) - not a or b and set to a or b
+shl(a or b) - shift a or b left and set to a or b
+shr(a or b) - shift a or b right and set to a or b
+lx(a or b) - set the x register with a or b
+ly(a or b) - set the y register with a or b
+lv(a or b) - set the v register with a or b
+inc(a or b or sp) - increment a or b or stack pointer and set to a or b or stack pointer
+dec(a or b or sp) - decrement a or b or stack pointer and set to a or b or stack pointer
+psh(a or b) - push a or b onto stack (does not increment the stack pointer)
+pop(a or b) - take whts on the stack and store into a or b (does not decrement the stack pointer)
+add, sub, or, xor - does this alu op and stores to a, i.e. for add a+b->a
+cmp - compares a and b, sets flags
+ld(a or b)v value - load value into a or b
+jmp addr - jump to address plus 1
+thes are jump ops based of flags: jmz - jump if Zero, jnz - jump if not Zero, jmc - jump if CarryOut, jnc - jump if not CarryOut, jme - jump if Equal, jne - jump if not Equal, jma - jump if ALarger, jna - jump if not ALarger
+pxi - turns on pixel and sets VRAM to 1 at register x,register y (X,Y)
+pxo - turns off pixel and sets VRAM to 0 at register x,register y (X,Y)
+wri - puts a character and sets VRAM for pixels of char at ofsets from register x,register y (X,Y). register v is char.
+int1 addr - wait for key input from user, store to ram at address
+int2 addr - read mouseX, store to ream at address
+int3 addr - read mouseY, store to ream at address
+int4 addr - read mouseLeftButton (0 not pressed, 1 pressed), store to ream at address
+int6 addr - read mouseRightButton (0 not pressed, 1 pressed), store to ream at address
+to use a number value do num; to use single char do 'char; commnet is ";"
+VRAM size is 21x68, seperate from RAM
+RAM size is 256*256
+stack size is 32, seperate from RAM
+changeable registers - sp, a, b, x, y, v
+
+to write numbers and it actually work, use # before it
+to do colours, use col,r,g,b. currently the colour range is 0-15

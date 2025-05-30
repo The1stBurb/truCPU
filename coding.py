@@ -1,16 +1,6 @@
 import allVars as av
-def byt(n):
-    if n<0:
-        return "0"*8
-    s=""
-    
-    for i in range(16,-1,-1):
-        if 2**i<=n:
-            s+="1"
-            n-=2**i
-        else:
-            s+="0"
-    return s
+from allFuncs import byt
+from random import randint
 asm=[]
 """
 it no worky rn, undergoing massive renovations...
@@ -28,44 +18,59 @@ almost equivilant of tearing it all down and rebuilding...
 code="""
 # displayMode=manual
 var x=1
-x=root(9,2)
+# x=dist(0,9,0,2)
 pxl(x,0)
 # disp()
 # ellipse(6,5,4)
-def mult(mult_a,mult_b)
-    # pxl(mult_a,mult_b)
-    var mult_x=0
-    for mult_i 0 <mult_b +=1
-        mult_x+=mult_a
-    frd
-    # pxl(mult_x,2)
-    return mult_x
-fcd
+# def randint(randint_min,randint_max)
+#     seed=mult(74624,seed)
+#     seed=add(seed, 6358)
+#     var randint_temp=0
+#     randint_temp=sqr(2,16)
+#     seed=mod(seed,randint_temp)
+#     return seed
+# fcd
+# def mod(mod_a,mod_b)
+#     var mod_temp=0
+#     mod_temp=div(mod_a,mod_b)
+#     mod_temp=mult(mod_b,mod_temp)
+#     mod_temp=sub(mod_a,mod_temp)
+#     return mod_temp
+# fcd
+# def mult(mult_a,mult_b)
+#     # pxl(mult_a,mult_b)
+#     var mult_x=0
+#     for mult_i 0 <mult_b +=1
+#         mult_x+=mult_a
+#     frd
+#     # pxl(mult_x,2)
+#     return mult_x
+# fcd
 # def add(add_a,add_b)
 #     add_a+=add_b
 #     return add_a
 # fcd
-def div(div_a,div_b)
-    var div_t=0
-    while div_a>div_b
-        div_a-=div_b
-        div_t+=1
-    whd
-    pxl(div_t,3)
-    return div_t
-fcd
+# def div(div_a,div_b)
+#     var div_t=0
+#     while div_a>div_b
+#         div_a-=div_b
+#         div_t+=1
+#     whd
+#     # pxl(div_t,3)
+#     return div_t
+# fcd
 # def sub(sub_a,sub_b)
 #     sub_a-=sub_b
 #     return sub_a
 # fcd
-def sqr(sqr_a,sqr_b)
-    var sqr_x=sqr_a
-    for i 1 <sqr_b +=1
-        sqr_a=mult(sqr_a,sqr_x)
-    frd
-    pxl(sqr_a,4)
-    return sqr_a
-fcd
+# def sqr(sqr_a,sqr_b)
+#     var sqr_x=sqr_a
+#     for i 1 <sqr_b +=1
+#         sqr_a=mult(sqr_a,sqr_x)
+#     frd
+#     pxl(sqr_a,4)
+#     return sqr_a
+# fcd
 # def sub2(sub2_a,sub2_b)
 #     if sub2_a>sub2_b
 #         sub2_a-=sub2_b
@@ -74,28 +79,36 @@ fcd
 #     sub2_b-=sub2_a
 #     return sub2_b
 # fcd
-def root(root_num,root_factor)
-    var root_guess=0
-    var root_guessPow=0
-    root_guess=div(root_num,2)
-    root_guessPow=sqr(root_guess,2)
-    pxl(root_guess,1)
-    # while root_guessPow>root_num
-    #     root_guess-=1
-    #     root_guessPow=sqr(root_guess,2)
-    #     pxl(root_guess,1)
-    # whd
-    pxl(root_guess,2)
-    return root_guess
-fcd
+# def root(root_num,root_factor)
+#     var root_guess=0
+#     var root_guessPow=0
+#     root_guess=div(root_num,2)
+#     root_guessPow=sqr(root_guess,2)
+#     while root_guessPow>root_num
+#         root_guess-=1
+#         root_guessPow=sqr(root_guess,2)
+#         pxl(root_guess,2)
+#     whd
+#     return root_guess
+# fcd
 # def dist(dist_x1,dist_y1,dist_x2,dist_y2)
 #     dist_x1=sqr(sub2(dist_x1,dist_x2),2)
-#     dist_y1=sqr(sub2(dist_y1,dist_x2),2)
+#     dist_y1=sqr(sub2(dist_y1,dist_y2),2)
 #     # dist_x2=sqr(dist_x2,2)
 #     var dist_add=0
 #     dist_add=add(dist_x1,dist_y1)
 #     dist_add=root(dist_add,2)
 #     return dist_add
+# fcd
+# def dist2(dist2_1,dist2_2)
+#     var dist2_add=0
+#     dist2_add=sub2(dist2_1,dist2_2)
+#     return dist2_add
+# fcd
+# def fill(fill_red,fill_green,fill_blue)
+#   COLOUR[0]=fill_red
+#   COLOUR[1]=fill_green
+#   COLOUR[2]=fill_blue
 # fcd
 # def ellipse(ellipse_x,ellipse_y,ellipse_r)
 #     var ellipse_d=0
@@ -127,7 +140,28 @@ fcd
 #     disp()
 # fcd
 """.replace("width",str(av.scrnWdth)).replace("height",str(av.scrnHght)).replace(";","\n")
-var={}
+# Random(min,max)
+# Randint(min,max)
+# Round(n,mag)
+# Min(n1,n2)
+# Max(n1,n2)
+# Dist(X1,y1,x2,y2)
+# Abs(n)
+# Sqrt(n)
+# Fill(r,g,b) or (r,g,b,a) or (intensity) or (I,a) - done ish
+# Rect(x,y,w,h)
+# Ellipse(x,y,w,h)
+# Line(X1,y1,X2,y2)
+# Text(txt,x,y)
+# Type(var)
+# Istype(var,typeOfVar)
+# Str(val)
+# Int(val)
+# List(val)
+# Time()-returns time in seconds
+# Millis()-returns time In milliseconds since program started
+# Sleep(len)
+var={"seed":[str(randint(0,255)),"int"],"COLOUR":[f"[{0},{0},{0},{255}]","list"]}
 fnc={}
 flgs={}
 tk=0

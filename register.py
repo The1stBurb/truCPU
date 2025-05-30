@@ -1,10 +1,5 @@
 from allVars import stkSize
-def byts(byte):
-    s=""
-    for i in byte:
-        if i=="1":s+="#"
-        else:s+="_"
-    return s
+from allFuncs import byts
 class REG:
     def __init__(self,always_set=False):
         self.val=str("0"*16)
@@ -61,6 +56,12 @@ class STPR:
             self.re=0
         if not(clk.c or clk.d):
             self.s1,self.s2,self.s3,self.s4,self.s5,self.s6,self.s7,self.s8,self.s9,self.s10,self.s11,self.s12,self.s13=self.s13,self.s1,self.s2,self.s3,self.s4,self.s5,self.s6,self.s7,self.s8,self.s9,self.s10,self.s11,self.s12
+    def __str__(self):
+        return f"1:{self.s1}|2:{self.s2}|3:{self.s3}|4:{self.s4}|5:{self.s5}|6:{self.s6}|7:{self.s7}|8:{self.s8}|9:{self.s9}|10:{self.s10}|11:{self.s11}|12:{self.s12}|"
+    def cur(self):
+        for x,i in enumerate([self.s1,self.s2,self.s3,self.s4,self.s5,self.s6,self.s7,self.s8,self.s9,self.s10,self.s11,self.s12]):
+            if i:return str(x+1)
+        return "0"
 
 class CLK:
     def __init__(self):
@@ -78,3 +79,5 @@ class CLK:
         elif self.count==2:self.c=1
         elif self.count==1:self.d=0
         self.s,self.e=self.c and self.d,self.c or self.d
+    def __str__(self):
+        return f"c:{self.c}|d:{self.d}|s:{self.s}|e:{self.e}"

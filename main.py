@@ -2,24 +2,27 @@ from time import sleep
 from RAM import RAM
 from CPU import CPU,num
 from GPU import GPU
+from DRIVE import DRIVE
 from register import STPR,STACK,CLK
 from assemb import mac
 ram=RAM().build(mac)
 cpu=CPU()
 gpu=GPU()
 clk=CLK()
+drv=DRIVE()
 stp=STPR()
 stk=STACK()
 # print(not 1)
 # input()
 gpu.display(())
+input(ram.mem[:10])
 while True:
     # print("\033c",end="")
     # print(ram)
     # try:
     clk.tick()
     stp.tick(clk)
-    if cpu.tick(clk,stp,ram,stk)=="HLT":
+    if cpu.tick(clk,stp,ram,stk,drv)=="HLT":
         break
     cpu.disp(ram,stk)
     gpu.tick(clk,stp,cpu.gpu.val,cpu.gpuop,(cpu.fc,cpu.fa,cpu.fe,cpu.fz))
@@ -30,8 +33,8 @@ while True:
     # gpu.display()
     # sleep(0.01)
     # input()
-
-    print(f"running! addr: {num(cpu.marx.val)}",end="\r")
+    print(f"running addr:{num(cpu.marx.val)}|{clk}|{stp.cur()}",end="\r")
+    # if clk.s and stp.s1:input("fish")
 gpu.display(())
 cpu.display(clk,stp,ram,stk)
 # print(ram.mem[len(mac)-1].val)

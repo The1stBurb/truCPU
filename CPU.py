@@ -1,37 +1,13 @@
 from register import REG
 from time import sleep
+from allFuncs import byts,num,byt
 # from CLK import CLK
 def XOR(b1,b2):
     b1,b2=int(b1),int(b2)
     return str(int(b1!=b2))
-def byts(byte):
-    s=""
-    for i in byte:
-        if i=="1":s+="#"
-        else:s+="_"
-    return s
-def num(byte):
-    byte=byte[::-1]
-    n=0
-    for i in range(len(byte)):
-        n+=int(byte[i])*2**i
-    # print(n)
-    return n
 def nt(n):
     return int(not int(n))
-def byt(n):
-    if n<0:
-        return "0"*8
-    s=""
-    # print(n)
-    for i in range(15,-1,-1):
-        if 2**i<=n:
-            s+="1"
-            n-=2**i
-        else:
-            s+="0"
-    # print(buy)
-    return s
+
 ltrs={
     "A":33,"B":34,"C":35,"D":36,"E":37,"F":38,"G":39,"H":40,"I":41,"J":42,"K":43,"L":44,"M":45,"N":46,"O":47,"P":48,"Q":49,"R":50,"S":51,"T":52,"U":53,"V":54,"W":55,"X":56,"Y":57,"Z":58,"a":1,"b":2,"c":3,"d":4,"e":5,"f":6,"g":7,"h":8,"i":9,"j":10,"k":11,"l":12,"m":13,"n":14,"o":15,"p":16,"q":17,"r":18,"s":19,"t":20,"u":21,"v":22,"w":23,"x":24,"y":25,"z":26,"1":64,"2":65,"3":66,"4":67,"5":68,"6":69,"7":70,"8":71,"9":72,"0":73,"~":74,"!":75,"@":76,"#":77,"$":78,"%":79,"^":80,"&":81,"*":82,"(":83,")":84,"_":85,"-":86,"+":87,"=":88,"{":89,"[":90,"}":91,"]":92,"|":93,"\\":94,":":95,";":96,"\"":97,"'":98,"<":99,",":100,">":101,".":102,"?":103,"/":104," ":105,"☒":0,#"¯":105,
     "\x1b[D":128,#lft
@@ -76,25 +52,20 @@ class CPU:
         self.nota,self.notb,self.shla,self.shlb,self.shra,self.shrb,self.inca,self.incb,self.deca,self.decb,self.add,self.sub,self.ro,self.xor,self.psha,self.pshb,self.popa,self.popb,self.lpxa,self.lpxb,self.spxa,self.spxb,self.incsp,self.decsp,self.call,self.ret,self.cpm=18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44
         self.jmp,self.jmc,self.jnc,self.jma,self.jna,self.jme,self.jne,self.jmz,self.jnz=48,50,51,52,53,54,55,56,57
         self.pxi,self.pxo,self.wri,self.wro,self.dsip=64,65,66,67,68
+        self.ldva,self.ldvb,self.sdva,self.sdvb,self.sdv,self.ldck,self.sdck=96,97,98,99,100,101,102
         self.int1,self.int2,self.int3,self.int4,self.int4,self.int5,self.int6,self.int7,self.int8=128,129,130,131,132,133,134,135,136
         self.hlt=255
         self.nad=256
         self.addop,self.subop,self.nad,self.orop,self.xorop,self.shl,self.shr,self.inc,self.dec,self.cmpop,self.notop="000","001","010","011","100","0110","0111","1000","1001","11101","0101"
-        # self.jmp,self.jmc,self.jmz,self.jnc,self.jnz="00110000","00110100","00110010","00110101","00110011"
-        # self.psh,self.pop,self.swap,self.swpa,self.swpb="00100010","00100011","00011110","",""
-        # self.axi="01001000"
-        # self.call,self.ret="00111010","00111111"
-        # self.ldav,self.ldbv="00100100","00100101"
-        # self.lda,self.ldb,self.sta,self.stb,self.nota,self.notb,self.shla,self.shlb,self.shra,self.shrb,self.inca,self.incb,self.deca,self.decb,self.popa,self.psha,self.popb,self.pshb,self.incsp,self.decsp,self.pxi,self.pxo,self.lpxa,self.lpxb,self.spxa,self.spxb,self.wri,self.gpuop,self.gsx,self.gsy,self.gs0,self.gs1,self.gsv,self.gwv,self.wri="00000010","00000011","00000100","00000101","00001010","00001011","00001100","00001101","00001110","00001111","00010000","00010001","00010010","00010011","00010100","00010110","00010101","00010111","00100000","00100001","01000000","01000001","01000010","01000011","01000100","01000101","01000110","000","001","010","011","100","101","110","01000110"
         self.gpuop,self.gsx,self.gsy,self.gs0,self.gs1,self.gsv,self.gwv="000","001","010","011","100","101","110"
         self.gdsp="123"
-        # self.jme,self.jne,self.jma,self.jna="00110110","00110111","00111000","00111001"
-        # self.sxa,self.sxb,self.sya,self.syb,self.sva,self.svb="10000010","10000011","10000100","10000101","10000110","10000111"
-        # self.int1="10000001"
-    def tick(self,clk,s,ram,stk):
+    def tick(self,clk,s,ram,stk,drv):
         self.gpuop="000"
         alut=""
         irv=num(self.ir.val)
+        # print(irv)
+        # if num(self.iar.val)>20:
+        #     input("...")
         nop=irv==self.nop
         ad=num(self.marx.val)
         sd=num(self.sp.val)
@@ -142,6 +113,9 @@ class CPU:
             elif irv==self.lxb:self.b.e,self.x.s=clk.e,clk.s
             elif irv==self.lyb:self.b.e,self.y.s=clk.e,clk.s
             elif irv==self.lvb:self.b.e,self.v.s=clk.e,clk.s
+            elif irv==self.lxv:ram.mem[ad].e,self.x.s=clk.e,clk.s
+            elif irv==self.lyv:ram.mem[ad].e,self.y.s=clk.e,clk.s
+            elif irv==self.lvv:ram.mem[ad].e,self.v.s=clk.e,clk.s
         elif s.s5:
             if irv==self.lda:self.a.s,ram.mem[ad].e=clk.s,clk.e
             elif irv==self.ldb:self.b.s,ram.mem[ad].e=clk.s,clk.e
@@ -150,7 +124,8 @@ class CPU:
             elif irv in [self.nota,self.shla,self.shra,self.inca,self.deca]:self.acc.e,self.a.s=clk.e,clk.s
             elif irv in [self.notb,self.shlb,self.shrb,self.incb,self.decb]:self.acc.e,self.b.s=clk.e,clk.s
             elif irv in [self.incsp,self.decsp]:self.acc.e,self.sp.s=clk.e,clk.e
-            elif irv in [self.jmp,(self.jmc if self.fc!="1" else self.jnc),(self.jmz if self.fz!="1" else self.jnz),(self.jme if self.fe!="1" else self.jne),(self.jma if self.fa!="1" else self.jna)]:self.iar.e,alut,self.acc.s=clk.e,self.inc,clk.s
+            
+            elif irv in [self.jmp,(self.jmc if self.fc!="1" else self.jnc),(self.jmz if self.fz!="1" else self.jnz),(self.jme if self.fe!="1" else self.jne),(self.jma if self.fa!="1" else self.jna),self.lxv,self.lyv,self.lvv]:self.iar.e,alut,self.acc.s=clk.e,self.inc,clk.s
             elif irv in [self.pxi,self.pxo,self.wri]:self.gpu.s,self.y.e,self.gpuop=clk.s,clk.e,self.gsy
             # elif irv==self.axi:self.b.e,self.gpu.s,self.gpuop=clk.e,clk.s,self.gsy
             elif irv==self.call:ram.mem[ad].e,self.marx.s,self.iar.s=clk.e,clk.s,clk.s
@@ -161,9 +136,9 @@ class CPU:
             elif irv in[self.add,self.sub,self.ro,self.xor]:self.a.e,alut,self.acc.s=clk.e,(self.addop if irv==self.add else(self.subop if irv==self.sub else(self.orop if irv==self.ro else self.xorop))),clk.s
         elif s.s6:
             if irv in [self.lda,self.ldb,self.sta,self.stb]:self.iar.e,alut,self.acc.s=clk.e,self.inc,clk.s
-            elif irv in [self.jmp,(self.jmc if self.fc!="1" else self.jnc),(self.jmz if self.fz!="1" else self.jnz),(self.jme if self.fe!="1" else self.jne),(self.jma if self.fa!="1" else self.jna)]:self.iar.s,self.acc.e,self.marx.s=clk.s,clk.e,clk.s
+            elif irv in [self.jmp,(self.jmc if self.fc!="1" else self.jnc),(self.jmz if self.fz!="1" else self.jnz),(self.jme if self.fe!="1" else self.jne),(self.jma if self.fa!="1" else self.jna),self.lxv,self.lyv,self.lvv]:self.iar.s,self.acc.e,self.marx.s=clk.s,clk.e,clk.s
             elif irv==self.wri:self.gpu.s,self.v.e,self.gpuop=clk.s,clk.e,(self.gwv if clk.s else "000")
-            elif irv==self.pxi:self.gpuop=self.gs1
+            elif irv==self.pxi:self.gpuop,self.gpu.s,self.a.e=self.gs1,clk.s,clk.e
             elif irv==self.pxo:self.gpuop=self.gs0
             # elif irv==self.axi:self.gpuop=self.gs1
             elif irv in[self.ldav,self.ldbv,self.wri]:self.acc.e,self.marx.s,self.iar.s=clk.e,clk.s,clk.s
@@ -218,6 +193,8 @@ class CPU:
         ram.mem[ad].st(self.bus.val,clk.s)
         stk.mem[sd].st(self.bus.val)
     def alu(self,op):
+        # op=num(("0"*(16-len(op)))+op)
+        # print(op)
         a=self.bus.val
         b=self.tmp.val
         # print(a)
@@ -225,9 +202,11 @@ class CPU:
         # print(op,a,b)
         if op==self.inc:
             # print(num(a),num(a)+1)
-            if num(a)>=2**16:
+            if num(a)+1>=2**16:
                 self.fc="1"
-            return byt(num(a)+1)
+            b=byt(num(a)+1)
+            # print(b)
+            return b
         elif op==self.dec:
             self.fc="0"
             return byt(num(a)-1)
@@ -242,7 +221,7 @@ class CPU:
             return "0"+a[:len(a)-1]
         elif op==self.addop:
             # input("add")
-            if num(a)+num(b)>=2**166:
+            if num(a)+num(b)>=2**16:
                 self.fc="1"
             return byt(num(a)+num(b))
         elif op==self.subop:
@@ -257,7 +236,7 @@ class CPU:
             return "".join([XOR(a[i],b[i]) for i in range(a)])
         elif op==self.cmpop:
             # print(self.fc+self.fa+self.fe+self.fz)
-            self.fc="1" if num(a)+num(b)>2**16 else "0"
+            self.fc="1" if num(a)+num(b)>=2**16 else "0"
             self.fa="1" if num(a)>num(b) else "0"
             self.fe="1" if num(a)==num(b) else "0"
             self.fz="0" if "1" in a else "1"

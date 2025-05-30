@@ -3,3 +3,7 @@ scrnWdth=68
 ramSize=256*256
 stkSize=32
 displayMode="auto"
+sliceSize=2**4
+sectorSize=2**4
+diskSize=2**4
+driveSize=1

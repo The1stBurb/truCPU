@@ -1,13 +1,14 @@
-from coding import asembly,byt
+from coding import asembly
+from allFuncs import byt
 ops={
     "nop":0,
     "lda":2,"ldb":3,"ldav":4,"ldbv":5,"sta":6,"stb":7,"lxa":8,"lxb":9,"lya":10,"lyb":11,"lva":12,"lvb":13,"lxv":14,"lyv":15,"lvv":16,
     "nota":18,"notb":19,"shla":20,"shlb":21,"shra":22,"shrb":23,"inca":24,"incb":25,"deca":26,"decb":27,"add":28,"sub":29,"or":30,"xor":31,"psha":32,"pshb":33,"popa":34,"popb":35,"lpxa":36,"lpxb":37,"spxa":38,"spxb":39,"incsp":40,"decsp":41,"call":42,"ret":43,"cmp":44,
     "jmp":48,"jmc":50,"jnc":51,"jma":52,"jna":53,"jme":54,"jne":55,"jmz":56,"jnz":57,
     "pxi":64,"pxo":65,"wri":66,"wro":67,"disp":68,
+    "ldva":96,"ldvb":97,"sdva":98,"sdvb":99,"sdv":100,"ldck":101,"sdck":102,
     "int1":128,"int2":129,"int3":130,"int4":131,"int5":132,"int6":133,"int7":134,"int8":135,
     "hlt":255,
-    # "ldac":"0000_0110","ldbc":"0000_0111","stac":"0000_1000","stbc":"0000_1001","nota":"0000_1010","notb":"0000_1011","shlb":"0000_1101","shla":"0000_1100","shrb":"0000_1111","shra":"0000_1110","incb":"0001_0001","inca":"0001_0000","decb":"0001_0011","deca":"0001_0010","popb":"0001_0101","popa":"0001_0100","psha":"0001_0110","pshb":"0001_0111","add":"0001_1000","sub":"0001_1001","and":"0001_1010","or":"0001_1011","xor":"0001_1100","cmp":"0001_1101","swap":"0001_1110","ldav":"0010_0100","ldbv":"0010_0101",# "jmp":"0011_0000","jmz":"0011_0010","jnz":"0011_0011","jmc":"0011_0100","jnc":"0011_0101","jme":"0011_0110","jne":"0011_0111","jma":"0011_1000","jna":"0011_1001","call":"0011_1010","ret":"0011_1111",# "incsp":"0010_0000","decsp":"0010_0001","push":"0010_0010","pop":"0010_0011",# "pxi":"0100_0000","pxo":"0100_0001","lpxa":"0100_0010","lpxb":"0100_0011","spxa":"0100_0100","spxb":"0100_0101","wrt":"0100_0110","axi":"0100_1000",# "hlt":"1000_0000","sxa":"1000_0010","sxb":"1000_0011","sya":"1000_0100","syb":"1000_0101","sva":"1000_0110","svb":"1000_0111",# "int1":"1000_1000","int2":"1000_1001"
 
 }
 ltrs={
@@ -85,29 +86,20 @@ ltrs={
 # call loop
 # hlt
 # """
-# asembly="""
-# lda #27
-# lxa
-# ldav #0
-# lya
-# pxi
-# lda #27
-# ldbv #5
-# cmp
-# jme #25
-# ldbv #6
-# stb #27
-# lda #27
-# lxa
-# ldav #0
-# lya
-# pxi
-# nop
-# hlt
-# #5
-# """
+#"lxv":14,"lyv":15,"lvv":16,
+#     "nota":18,"notb":19,"shla":20,"shlb":21,"shra":22,"shrb":23,"inca":24,"incb":25,"deca":26,"decb":27,"add":28,"sub":29,"or":30,"xor":31,"psha":32,"pshb":33,"popa":34,"popb":35,"lpxa":36,"lpxb":37,"spxa":38,"spxb":39,"incsp":40,"decsp":41,"call":42,"ret":43,"cmp":44,
+#     "jmp":48,"jmc":50,"jnc":51,"jma":52,"jna":53,"jme":54,"jne":55,"jmz":56,"jnz":57,
+#     "pxi":64,"pxo":65,"wri":66,"wro":67,"disp":68,
+#     "int1":128,"int2":129,"int3":130,"int4":131,"int5":132,"int6":133,"int7":134,"int8":135,
+#     "hlt":255,
+asembly="""
+lxv #1
+lyv #2
+lvv 'A
+wri
+"""
 lines = asembly.split("\n")
-if lines[0]!="hlt":
+if lines[-1]!="hlt":
     lines.append("hlt")
 stats = {}
 lvl2 = []
@@ -162,6 +154,14 @@ for line in lines:
             b=byt(int(arg[1:]))
             if isinstance(b,list):mac.extend(b)
             else:mac.append(b)
+        elif "col"in arg:
+            b=arg.split(",")
+            r=int(b[1])
+            g=int(b[2])
+            b=int(b[3])
+            b=byt(r*256+g*16+b)
+            print("col",b)
+            mac.append(b)
         else:
             mac.append(arg.replace("_", ""))
 
