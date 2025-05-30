@@ -1,5 +1,5 @@
-from coding import asembly
-from allFuncs import byt
+from code import asembly
+from allFuncs import byt,COLOUR
 ops={
     "nop":0,
     "lda":2,"ldb":3,"ldav":4,"ldbv":5,"sta":6,"stb":7,"lxa":8,"lxb":9,"lya":10,"lyb":11,"lva":12,"lvb":13,"lxv":14,"lyv":15,"lvv":16,
@@ -9,7 +9,6 @@ ops={
     "ldva":96,"ldvb":97,"sdva":98,"sdvb":99,"sdv":100,"ldck":101,"sdck":102,
     "int1":128,"int2":129,"int3":130,"int4":131,"int5":132,"int6":133,"int7":134,"int8":135,
     "hlt":255,
-
 }
 ltrs={
     "A":33,"B":34,"C":35,"D":36,"E":37,"F":38,"G":39,"H":40,"I":41,"J":42,"K":43,"L":44,"M":45,"N":46,"O":47,"P":48,"Q":49,"R":50,"S":51,"T":52,"U":53,"V":54,"W":55,"X":56,"Y":57,"Z":58,"a":1,"b":2,"c":3,"d":4,"e":5,"f":6,"g":7,"h":8,"i":9,"j":10,"k":11,"l":12,"m":13,"n":14,"o":15,"p":16,"q":17,"r":18,"s":19,"t":20,"u":21,"v":22,"w":23,"x":24,"y":25,"z":26,"1":64,"2":65,"3":66,"4":67,"5":68,"6":69,"7":70,"8":71,"9":72,"0":73,"~":74,"!":75,"@":76,"#":77,"$":78,"%":79,"^":80,"&":81,"*":82,"(":83,")":84,"_":85,"-":86,"+":87,"=":88,"{":89,"[":90,"}":91,"]":92,"|":93,"\\":94,":":95,";":96,"\"":97,"'":98,"<":99,",":100,">":101,".":102,"?":103,"/":104,"¯":105,"☒":0," ":105,
@@ -86,18 +85,12 @@ ltrs={
 # call loop
 # hlt
 # """
-#"lxv":14,"lyv":15,"lvv":16,
-#     "nota":18,"notb":19,"shla":20,"shlb":21,"shra":22,"shrb":23,"inca":24,"incb":25,"deca":26,"decb":27,"add":28,"sub":29,"or":30,"xor":31,"psha":32,"pshb":33,"popa":34,"popb":35,"lpxa":36,"lpxb":37,"spxa":38,"spxb":39,"incsp":40,"decsp":41,"call":42,"ret":43,"cmp":44,
-#     "jmp":48,"jmc":50,"jnc":51,"jma":52,"jna":53,"jme":54,"jne":55,"jmz":56,"jnz":57,
-#     "pxi":64,"pxo":65,"wri":66,"wro":67,"disp":68,
-#     "int1":128,"int2":129,"int3":130,"int4":131,"int5":132,"int6":133,"int7":134,"int8":135,
-#     "hlt":255,
-asembly="""
-lxv #1
-lyv #2
-lvv 'A
-wri
-"""
+# asembly="""
+# lxv #1
+# lyv #2
+# lvv 'A
+# wri
+# """
 lines = asembly.split("\n")
 if lines[-1]!="hlt":
     lines.append("hlt")
@@ -156,12 +149,7 @@ for line in lines:
             else:mac.append(b)
         elif "col"in arg:
             b=arg.split(",")
-            r=int(b[1])
-            g=int(b[2])
-            b=int(b[3])
-            b=byt(r*256+g*16+b)
-            print("col",b)
-            mac.append(b)
+            mac.append(byt(COLOUR(int(b[1]),int(b[2]),int(b[3]))))
         else:
             mac.append(arg.replace("_", ""))
 
