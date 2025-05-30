@@ -74,6 +74,8 @@ class GPU:
     def display(self,flgs):
         # print(flgs)
         print("\033c",end="")
+        # print("|"+("."*scrnWdth)+"|")
+        print("|"+("".join([str(i)[-1] for i in range(scrnWdth)]))+"|")
         for i in range(scrnHght):
             s=""
             for j in range(scrnWdth):

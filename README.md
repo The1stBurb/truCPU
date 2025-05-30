@@ -3,7 +3,7 @@ Overview:
 - RAM w/ 64Kib
 - GPU w/ VRAM
 - Assembler
-- Personal Assembly Language - "Burbx16"
+- Personal Assembly Language - "FFPF"
 - Screen
 - 3GL Programming Language - "BurbLang" inDev    
   

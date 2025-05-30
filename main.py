@@ -1,4 +1,4 @@
-from time import sleep
+from time import sleep,perf_counter_ns
 from RAM import RAM
 from CPU import CPU,num
 from GPU import GPU
@@ -14,8 +14,7 @@ stp=STPR()
 stk=STACK()
 # print(not 1)
 # input()
-gpu.display(())
-input(ram.mem[:10])
+start=perf_counter_ns()
 while True:
     # print("\033c",end="")
     # print(ram)
@@ -35,8 +34,10 @@ while True:
     # input()
     print(f"running addr:{num(cpu.marx.val)}|{clk}|{stp.cur()}",end="\r")
     # if clk.s and stp.s1:input("fish")
+end=perf_counter_ns()
 gpu.display(())
 cpu.display(clk,stp,ram,stk)
 # print(ram.mem[len(mac)-1].val)
 print("HALTED!")
+print(f"took {(end-start)/1_000_000} ms")
 # print(ram.mem[:20])
