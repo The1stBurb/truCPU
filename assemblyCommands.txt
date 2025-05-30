@@ -1,6 +1,7 @@
 int1-keyboard,int2-mouse
 nop - do nothing
 ld(a or b) addr - set a or b from the address in ram
+ld(a or b)v value - load value into a or b
 st(a or b) addr - set the address in ram from a or b
 not(a or b) - not a or b and set to a or b
 shl(a or b) - shift a or b left and set to a or b
@@ -8,6 +9,9 @@ shr(a or b) - shift a or b right and set to a or b
 lx(a or b) - set the x register with a or b
 ly(a or b) - set the y register with a or b
 lv(a or b) - set the v register with a or b
+lxv val - load value inot x register
+lyv val - load value into y register
+lvv val - load value into v register
 inc(a or b or sp) - increment a or b or stack pointer and set to a or b or stack pointer
 dec(a or b or sp) - decrement a or b or stack pointer and set to a or b or stack pointer
 psh(a or b) - push a or b onto stack (does not increment the stack pointer)
@@ -17,9 +21,9 @@ cmp - compares a and b, sets flags
 ld(a or b)v value - load value into a or b
 jmp addr - jump to address plus 1
 thes are jump ops based of flags: jmz - jump if Zero, jnz - jump if not Zero, jmc - jump if CarryOut, jnc - jump if not CarryOut, jme - jump if Equal, jne - jump if not Equal, jma - jump if ALarger, jna - jump if not ALarger
-pxi - turns on pixel and sets VRAM to 1 at register x,register y (X,Y)
+pxi - turns on pixel and sets VRAM to value in a register at register x,register y (X,Y)
 pxo - turns off pixel and sets VRAM to 0 at register x,register y (X,Y)
-wri - puts a character and sets VRAM for pixels of char at ofsets from register x,register y (X,Y). register v is char.
+wri - puts a character and sets VRAM for pixels of char, color white, at offsets from register x,register y (X,Y). register v is char.
 int1 addr - wait for key input from user, store to ram at address
 int2 addr - read mouseX, store to ream at address
 int3 addr - read mouseY, store to ream at address
