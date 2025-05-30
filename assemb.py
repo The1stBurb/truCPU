@@ -1,4 +1,4 @@
-from code import asembly
+from coding import asembly
 from allFuncs import byt,COLOUR
 ops={
     "nop":0,
