@@ -25,3 +25,5 @@ def num(byte):
     #     print(n)
     #     input()
     return n
+def COLOUR(r,g,b):
+    return r*256+g*16+b
