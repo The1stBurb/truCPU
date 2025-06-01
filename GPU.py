@@ -1,8 +1,14 @@
 from time import sleep
 from register import REG
 from assemb import ltrs,byt
-from allVars import scrnHght,scrnWdth,displayMode
+from allVars import scrnHght,scrnWdth,displayMode,pixelSize
 from allFuncs import num
+
+import pygame
+pygame.init()
+screen = pygame.display.set_mode((800, 600))
+def rect(x,y,w,h,col):
+    pygame.draw.rect(screen, col, pygame.Rect(x, y, w, h))
 ltr={byt(ltrs[key]):key for key in ltrs}
 
 text={"A":["010","101","111","101","101"],"B":["110","101","111","101","110"],"C":["111","100","100","100","111"],"D":["110","101","101","101","110"],"E":["111","100","110","100","111"],"F":["111","100","110","100","100"],"G":["111","100","101","101","111"],"H":["101","111","101","101","101"],"I":["111","010","010","010","111"],"J":["111","010","010","010","100"],"K":["101","101","110","101","101"],"L":["100","100","100","100","111"],"M":["101","111","111","101","101"],"N":["111","101","101","101","101"],"O":["010","101","101","101","010"],"P":["111","101","111","100","100"],"Q":["111","101","111","001","001"],"R":["111","101","110","101","101"],"S":["011","100","010","001","110"],"T":["111","010","010","010","010"],"U":["101","101","101","101","111"],"V":["101","101","101","101","010"],"W":["101","101","111","111","101"],"X":["101","101","010","101","101"],"Y":["101","101","010","010","010"],"Z":["111","001","010","100","111"],
@@ -73,9 +79,9 @@ class GPU:
             sleep(0.05)
     def display(self,flgs):
         # print(flgs)
-        print("\033c",end="")
+        # print("\033c",end="")
         # print("|"+("."*scrnWdth)+"|")
-        print("|"+("".join([str(i)[-1] for i in range(scrnWdth)]))+"|")
+        # print("|"+("".join([str(i)[-1] for i in range(scrnWdth)]))+"|")
         for i in range(scrnHght):
             s=""
             for j in range(scrnWdth):
@@ -87,9 +93,11 @@ class GPU:
                 #black-40,red-41,green-42,yellow-43,blu-44,"prple"-45,cyan-46,white-47
                 # col={0:40,1:}[num(m)]
                 rng=255/15
-                r,g,b=int(num(m[4:8])*rng),int(num(m[8:12])*rng),int(num(m[12:16])*rng)
+                col=(int(num(m[4:8])*rng),int(num(m[8:12])*rng),int(num(m[12:16])*rng))
                 # if "1" in m:print(r,g,b)
                 # s+=(f"\033[{col}m ")
-                s+=f"\033[48;2;{r};{g};{b}m "
-            print("|"+s+"\033[0m|")
+                rect(j*pixelSize,i*pixelSize,pixelSize,pixelSize,col)
+                # s+=f"\033[48;2;{r};{g};{b}m "
+            # print("|"+s+"\033[0m|")
+        pygame.display.flip()
         # print(self.ad,num(self.my)*scrnWdth+num(self.mx))

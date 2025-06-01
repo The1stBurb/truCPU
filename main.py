@@ -41,3 +41,5 @@ cpu.display(clk,stp,ram,stk)
 print("HALTED!")
 print(f"took {(end-start)/1_000_000} ms")
 # print(ram.mem[:20])
+
+# & C:/Users/ECoop/AppData/Local/Programs/Python/Python313/python.exe c:/Users/ECoop/Desktop/truCPU/main.py

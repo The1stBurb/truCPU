@@ -7,3 +7,4 @@ sliceSize=2**4
 sectorSize=2**4
 diskSize=2**4
 driveSize=1
+pixelSize=2

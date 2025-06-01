@@ -158,5 +158,5 @@ for idx, code in enumerate(mac):
     if code in stats:
         mac[idx] = byt(stats[code])
 
-print(mac,len(mac))
+# print(mac,len(mac))
 input()
