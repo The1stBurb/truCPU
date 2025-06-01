@@ -1,6 +1,8 @@
 from register import REG
 from time import sleep
+from allVars import rect,bitSize
 from allFuncs import byts,num,byt
+import pygame
 # from CLK import CLK
 def XOR(b1,b2):
     b1,b2=int(b1),int(b2)
@@ -26,6 +28,12 @@ def cm(a,b):
         if a[i]!=b[i]:
             return False
     return True
+psz=3
+def registerDisp(x,y,data,name):
+    rect(x-1,y-1,bitSize*psz+2,psz+2,(0,0,0))
+    for xo,i in enumerate(data):
+        rect(x+xo*psz,y,psz,psz,(0,0,0) if i=="0" else (255,255,255))
+
 class CPU:
     def __init__(self):
         self.a=REG()
@@ -244,27 +252,27 @@ class CPU:
         ad=num(self.marx.val)
         sd=num(self.sp.val)
         # print(sd)
-        print(f"clk: {clk.c} | clks:{clk.s} | clke:{clk.e} | clkd: {clk.d}")
-        print(f"S1:{s.s1}|S2:{s.s2}|S3:{s.s3}|S4:{s.s4}|S5:{s.s5}|S6:{s.s6}|S7:{s.s7}|S8:{s.s8}|S9:{s.s9}|S10:{s.s10}|S11:{s.s11}")
-        print(f"  a:{self.a}|")
-        print(f"  b:{self.b}|")
-        print(f"mar:{self.marx}|")
-        print(f" ir:{self.ir}|")
-        print(f"iar:{self.iar}|")
-        # print(self.acc)
-        print(f"acc:{self.acc}|")
-        print(f"tmp:{self.tmp}|")
-        print(f"bus:{self.bus}|")
-        print(f"ram:{ram.mem[ad]}|")
-        print(f" sp:{self.sp}|")
-        print(sd)
-        print(f"stk:{stk.mem[sd]}|")
-        print(f"gpu:{self.gpu}|")
-        print(f"int:{self.int}|")
-        print(f"  x:{self.x}|")
-        print(f"  y:{self.y}|")
-        print(f"  v:{self.v}|")
-        print(self.fc+self.fa+self.fe+self.fz)
+        # print(f"clk: {clk.c} | clks:{clk.s} | clke:{clk.e} | clkd: {clk.d}")
+        # print(f"S1:{s.s1}|S2:{s.s2}|S3:{s.s3}|S4:{s.s4}|S5:{s.s5}|S6:{s.s6}|S7:{s.s7}|S8:{s.s8}|S9:{s.s9}|S10:{s.s10}|S11:{s.s11}")
+        # print(f"  a:{self.a}|")
+        # print(f"  b:{self.b}|")
+        # print(f"mar:{self.marx}|")
+        # print(f" ir:{self.ir}|")
+        # print(f"iar:{self.iar}|")
+        # # print(self.acc)
+        # print(f"acc:{self.acc}|")
+        # print(f"tmp:{self.tmp}|")
+        # print(f"bus:{self.bus}|")
+        # print(f"ram:{ram.mem[ad]}|")
+        # print(f" sp:{self.sp}|")
+        # print(sd)
+        # print(f"stk:{stk.mem[sd]}|")
+        # print(f"gpu:{self.gpu}|")
+        # print(f"int:{self.int}|")
+        # print(f"  x:{self.x}|")
+        # print(f"  y:{self.y}|")
+        # print(f"  v:{self.v}|")
+        # print(self.fc+self.fa+self.fe+self.fz)
     def disp(self,ram,stk):
         ad,sd=num(self.marx.val),num(self.sp.val)
         str(self.a)+str(self.b)+str(self.marx)+str(self.ir)+str(self.iar)+str(self.acc)+str(self.tmp)+str(ram.mem[ad])+str(self.sp)+str(stk.mem[sd])+str(self.gpu)+str(self.int)+str(self.x)+str(self.y)+str(self.v)
