@@ -12,6 +12,8 @@ pixelSize=5
 bitSize=16
 
 pygame.init()
+pygame.font.init()
 screen = pygame.display.set_mode((800, 600))
+font = pygame.font.SysFont("Arial", 48)
 def rect(x,y,w,h,col):
     pygame.draw.rect(screen, col, pygame.Rect(x, y, w, h))

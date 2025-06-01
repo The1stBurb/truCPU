@@ -1,8 +1,9 @@
 from register import REG
 from time import sleep
-from allVars import rect,bitSize
+from allVars import rect,bitSize,font,screen
 from allFuncs import byts,num,byt
 import pygame
+
 # from CLK import CLK
 def XOR(b1,b2):
     b1,b2=int(b1),int(b2)
@@ -33,6 +34,8 @@ def registerDisp(x,y,data,name):
     rect(x-1,y-1,bitSize*psz+2,psz+2,(0,0,0))
     for xo,i in enumerate(data):
         rect(x+xo*psz,y,psz,psz,(0,0,0) if i=="0" else (255,255,255))
+    screen.blit(font.render(name, True, (0, 0, 0)), (x, y+psz+2))
+
 
 class CPU:
     def __init__(self):
