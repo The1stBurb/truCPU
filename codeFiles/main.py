@@ -1,10 +1,10 @@
-# displayMode=manual
+displayMode=manual
 var x=1
 # x=dist(0,9,0,2)
 fill(0,15,15)
 # pxl(x,0)
 # disp()
-rect(6,5,2,4)
+rect(1,1,2,4)
 def randint(randint_min,randint_max)
     seed=mult(74624,seed)
     seed=add(seed, 6358)
@@ -143,14 +143,16 @@ def fill(fill_red,fill_green,fill_blue)
 fcd
 def rect(rect_x,rect_y,rect_w,rect_h)
     var rect_x2=0
-    rect_x2=add(rect_x,rect_w)
+    # rect_x2=add(rect_x,rect_w)
     var rect_y2=0
-    rect_y2=add(rect_y,rect_h)
-    for rect_iy rect_y <=rect_y2 +=1
-        for rect_ix rect_x <=rect_x2 +=1
-            pxl(rect_ix,rect_iy)
-        ifd
-    ifd
+    # rect_y2=add(rect_y,rect_h)
+    for rect_iy 0 <=rect_h +=1
+        for rect_ix 0 <=rect_h +=1
+            rect_x2=add(rect_ix,rect_x)
+            rect_y2=add(rect_iy,rect_y)
+            pxl(rect_x2,rect_y2)
+        frd
+    frd
     disp()
 fcd
 def ellipse(ellipse_x,ellipse_y,ellipse_r)

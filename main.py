@@ -5,6 +5,8 @@ from GPU import GPU
 from DRIVE import DRIVE
 from register import STPR,STACK,CLK
 from assemb import mac
+
+import pygame
 ram=RAM().build(mac)
 cpu=CPU()
 gpu=GPU()
@@ -41,5 +43,8 @@ cpu.display(clk,stp,ram,stk)
 print("HALTED!")
 print(f"took {(end-start)/1_000_000} ms")
 # print(ram.mem[:20])
-
+while True:
+    for i in pygame.event.get():
+        if i.type==pygame.QUIT:
+            quit()
 # & C:/Users/ECoop/AppData/Local/Programs/Python/Python313/python.exe c:/Users/ECoop/Desktop/truCPU/main.py

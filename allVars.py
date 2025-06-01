@@ -1,10 +1,10 @@
-scrnHght=17
-scrnWdth=68
+scrnHght=70
+scrnWdth=70
 ramSize=256*256
-stkSize=32
+stkSize=24
 displayMode="auto"
 sliceSize=2**4
 sectorSize=2**4
 diskSize=2**4
 driveSize=1
-pixelSize=2
+pixelSize=5

@@ -76,12 +76,13 @@ class GPU:
         if (op in [self.sv,self.s1,self.s0,self.wv] and displayMode=="auto")or op==self.disp:
             # print("\033c",end="")
             self.display(flgs)
-            sleep(0.05)
+            # sleep(0.05)
     def display(self,flgs):
         # print(flgs)
         # print("\033c",end="")
         # print("|"+("."*scrnWdth)+"|")
         # print("|"+("".join([str(i)[-1] for i in range(scrnWdth)]))+"|")
+        screen.fill((255,255,255))
         for i in range(scrnHght):
             s=""
             for j in range(scrnWdth):
@@ -98,6 +99,9 @@ class GPU:
                 # s+=(f"\033[{col}m ")
                 rect(j*pixelSize,i*pixelSize,pixelSize,pixelSize,col)
                 # s+=f"\033[48;2;{r};{g};{b}m "
+            rect((j+1)*pixelSize,i*pixelSize,pixelSize,pixelSize,(0,0,0))
+        for j in range(scrnWdth):
+            rect(j*pixelSize,(i+1)*pixelSize,pixelSize,pixelSize,(0,0,0))
             # print("|"+s+"\033[0m|")
         pygame.display.flip()
         # print(self.ad,num(self.my)*scrnWdth+num(self.mx))
