@@ -34,7 +34,7 @@ def registerDisp(x,y,data,name):
     rect(x-1,y-1,bitSize*psz+2,psz+2,(0,0,0))
     for xo,i in enumerate(data):
         rect(x+xo*psz,y,psz,psz,(0,0,0) if i=="0" else (255,255,255))
-    screen.blit(font.render(name, True, (0, 0, 0)), (x, y+psz+2))
+    screen.blit(font.render("REG: "+name, True, (0, 0, 0)), (x, y+psz+2))
 
 
 class CPU:
@@ -258,6 +258,7 @@ class CPU:
         # print(f"clk: {clk.c} | clks:{clk.s} | clke:{clk.e} | clkd: {clk.d}")
         # print(f"S1:{s.s1}|S2:{s.s2}|S3:{s.s3}|S4:{s.s4}|S5:{s.s5}|S6:{s.s6}|S7:{s.s7}|S8:{s.s8}|S9:{s.s9}|S10:{s.s10}|S11:{s.s11}")
         # print(f"  a:{self.a}|")
+        registerDisp(200,20,self.b.val,"b")
         # print(f"  b:{self.b}|")
         # print(f"mar:{self.marx}|")
         # print(f" ir:{self.ir}|")
