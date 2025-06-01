@@ -17,6 +17,7 @@ stk=STACK()
 # print(not 1)
 # input()
 start=perf_counter_ns()
+gpu.display(())
 while True:
     # print("\033c",end="")
     # print(ram)
