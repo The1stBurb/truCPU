@@ -3,6 +3,7 @@ from time import sleep
 from allVars import rect,bitSize,font,screen
 from allFuncs import byts,num,byt
 import pygame
+from ALU import ALU
 
 # from CLK import CLK
 def XOR(b1,b2):
@@ -36,7 +37,7 @@ def registerDisp(x,y,data,name):
         rect(x+xo*psz,y,psz,psz,(0,0,0) if i=="0" else (255,255,255))
     screen.blit(font.render("REG: "+name, True, (0, 0, 0)), (x, y+psz+2))
 
-
+ula=ALU()
 class CPU:
     def __init__(self):
         self.a=REG()
@@ -211,16 +212,12 @@ class CPU:
         # print("|"+op+"|",a,b)
         # print(op,a,b)
         if op==self.inc:
-            # print(num(a),num(a)+1)
-            if num(a)+1>=2**16:
-                self.fc="1"
-            b=byt(num(a)+1)
-            # print(b)
-            return b
+            b=byt(1)
+            op="add"
         elif op==self.dec:
-            self.fc="0"
-            return byt(num(a)-1)
-        elif op==self.notop:
+            b=byt(1)
+            op="sub"
+        if op==self.notop:
             self.fc="0"
             return "".join([str(nt(i)) for i in a])
         elif op==self.shl:
@@ -231,13 +228,9 @@ class CPU:
             return "0"+a[:len(a)-1]
         elif op==self.addop:
             # input("add")
-            if num(a)+num(b)>=2**16:
-                self.fc="1"
-            return byt(num(a)+num(b))
+            return ula.oper(a,b,"0","add")[0]
         elif op==self.subop:
-            # print(num(a),num(b),num(a)-num(b),self.a.val,self.b.val)
-            # input()
-            return byt(num(a)-num(b))
+            return ula.oper(a,b,"0","sub")[0]
         elif op==self.andop:
             return "".join([str(int(int(a[i]) and int(b[i]))) for i in range(len(a))])
         elif op==self.orop:
