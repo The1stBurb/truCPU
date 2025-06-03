@@ -218,7 +218,7 @@ class CPU:
             b=byt(1)
             op="sub"
         if op==self.notop:
-            self.fc="0"
+            self.fc="0" 
             return "".join([str(nt(i)) for i in a])
         elif op==self.shl:
             self.fc=a[0]
