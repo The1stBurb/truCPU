@@ -1,7 +1,7 @@
 from register import REG
 from time import sleep
-from allVars import rect,bitSize,font,screen
-from allFuncs import byts,num,byt
+from allVars import rect,font,screen
+from allFuncs import byts,num,byt,bitSize
 import pygame
 from ALU import ALU
 

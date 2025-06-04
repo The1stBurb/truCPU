@@ -1,7 +1,7 @@
 from time import sleep
 from register import REG
 from assemb import ltrs,byt
-from allVars import scrnHght,scrnWdth,displayMode,pixelSize,rect
+from allVars import scrnHght,scrnWdth,displayMode,pixelSize,rect,screen,pygame
 from allFuncs import num
 
 # import pygame

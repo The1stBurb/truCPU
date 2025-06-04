@@ -1,8 +1,8 @@
 from allVars import stkSize
-from allFuncs import byts
+from allFuncs import byts,bitSize
 class REG:
     def __init__(self,always_set=False):
-        self.val=str("0"*16)
+        self.val=str("0"*bitSize)
         self.als=int(always_set)
         self.s=self.als
         self.e=0
