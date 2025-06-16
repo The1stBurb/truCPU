@@ -9,7 +9,7 @@ almost equivilant of tearing it all down and rebuilding...
 """
 # def rect(rect_x,rect_y,rect_w,rect_h);for rect_yi rect_y <rect_h +=1;for rect_xi rect_x <rect_w +=1;pxl(rect_xi,rect_yi);frd;frd;disp();fcd 
 code=""
-with open("codeFiles/main.py")as main:
+with open("codeFiles/main.burb")as main:
     code=main.read().replace("width",str(av.scrnWdth)).replace("height",str(av.scrnHght)).replace(";","\n")
 # code="""
 # var x=0

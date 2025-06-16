@@ -32,6 +32,7 @@ class DRIVE:
     def __str__(self):
         s,e=self.cur().s,self.cur().e
         return str(self.cur())+f"|s:{s}|e:{e}"
+#img - width height data seperated by 2^15,#txt-just
 #16 bits 0000DISK 0000SECTOR 0000SLICE 0000MEMloc ig
 # drv=DRIVE()
 # print(drv)
