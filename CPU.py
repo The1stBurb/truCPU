@@ -67,9 +67,75 @@ class CPU:
         self.ldva,self.ldvb,self.sdva,self.sdvb,self.sdv,self.ldck,self.sdck=96,97,98,99,100,101,102
         self.int1,self.int2,self.int3,self.int4,self.int4,self.int5,self.int6,self.int7,self.int8=128,129,130,131,132,133,134,135,136
         self.hlt=255
+        self.ldca,self.stid=300,301
         self.addop,self.subop,self.andop,self.orop,self.xorop,self.shl,self.shr,self.inc,self.dec,self.cmpop,self.notop="000","001","010","011","100","0110","0111","1000","1001","11101","0101"
         self.gpuop,self.gsx,self.gsy,self.gs0,self.gs1,self.gsv,self.gwv="000","001","010","011","100","101","110"
         self.gdsp="123"
+    def fastTick(self,ram,stk,drv,gpu):
+        self.gpuop="000"
+        irv=num(self.ir.val)
+        ad=num(self.marx.val)
+        sd=num(self.sp.val)
+        self.ir.val=ram.mem[ad].val
+        self.iar.val=byt(num(self.marx.val)+1)
+        if irv==self.hlt:return "HLT"
+        elif irv==self.lda:self.a.val,self.marx.val=ram.mem[num(ram.mem[ad+1].val)].val,byt(num(self.marx.val)+1)
+        elif irv==self.ldb:self.b.val,self.marx.val=ram.mem[num(ram.mem[ad+1].val)].val,byt(num(self.marx.val)+1)
+        elif irv==self.ldav:self.a.val,self.marx.val=ram.mem[ad+1].val,byt(num(self.marx.val)+1)
+        elif irv==self.ldbv:self.b.val,self.marx.val=ram.mem[ad+1].val,byt(num(self.marx.val)+1)
+        elif irv==self.sta:ram.mem[num(ram.mem[ad+1])].val,self.marx.val=self.a.val,byt(num(self.marx.val)+1)
+        elif irv==self.stb:ram.mem[num(ram.mem[ad+1])].val,self.marx.val=self.b.val,byt(num(self.marx.val)+1)
+        elif irv==self.nota:self.a.val="".join([str(nt(i)) for i in self.a.val])
+        elif irv==self.notb:self.b.val="".join([str(nt(i)) for i in self.b.val])
+        elif irv==self.shla:self.a.val=self.a.val[1:]+"0"
+        elif irv==self.shlb:self.b.val=self.b.val[1:]+"0"
+        elif irv==self.shra:self.a.val="0"+self.a.val[:len(self.a.val)-1]
+        elif irv==self.shrb:self.b.val="0"+self.b.val[:len(self.b.val)-1]
+        elif irv==self.lxa:self.x.val=self.a.val
+        elif irv==self.lxb:self.x.val=self.b.val
+        elif irv==self.lya:self.y.val=self.a.val
+        elif irv==self.lyb:self.y.val=self.b.val
+        elif irv==self.lva:self.v.val=self.a.val
+        elif irv==self.lvb:self.v.val=self.b.val
+        elif irv==self.lxv:self.x.val,self.marx.val=ram.mem[ad+1].val,byt(num(self.marx.val)+1)
+        elif irv==self.lyv:self.y.val,self.marx.val=self.a.val,byt(num(self.marx.val)+1)
+        elif irv==self.lvv:self.v.val,self.marx.val=self.a.val,byt(num(self.marx.val)+1)
+        elif irv==self.inca:self.a.val=byt(num(self.a.val)+1)
+        elif irv==self.incb:self.b.val=byt(num(self.b.val)+1)
+        elif irv==self.deca:self.a.val=byt(num(self.a.val)-1)
+        elif irv==self.decb:self.b.val=byt(num(self.b.val)-1)
+        elif irv==self.psha:stk.mem[sd].val=self.a.val
+        elif irv==self.pshb:stk.mem[sd].val=self.b.val
+        elif irv==self.popa:self.a.val=stk.mem[sd].val
+        elif irv==self.popb:self.b.val=stk.mem[ad].val
+        elif irv==self.incsp:self.sp.val=byt(num(self.sp.val)+1)
+        elif irv==self.decsp:self.sp.val=byt(num(self.sp.val)-1)
+        elif irv==self.add:self.a.val=byt(num(self.a.val)+num(self.b.val))
+        elif irv==self.sub:self.a.val=byt(num(self.a.val)-num(self.b.val))
+        elif irv==self.ro:self.a.val="".join([str(int(int(self.a.val[i]) or int(self.b.val[i]))) for i in range(len(self.a.val))])
+        elif irv==self.ro:self.a.val="".join([XOR(self.a.val[i],self.b.val[i]) for i in range(len(self.a.val))])
+        elif irv==self.cpm:
+            self.fc="1" if num(self.a.val)+num(self.b.val)>=2**16 else "0"
+            self.fa="1" if num(self.a.val)>num(self.b.val) else "0"
+            self.fe="1" if num(self.a.val)==num(self.b.val) else "0"
+            self.fz="0" if "1" in self.a.val else "1"
+        elif irv==self.jmp:self.marx.val=byt(num(ram.mem[ad+1].val)+1)
+        elif irv==self.jmc and self.fc=="1":self.marx.val=byt(num(ram.mem[ad+1].val)+1)
+        elif irv==self.jnc and self.fc=="0":self.marx.val=byt(num(ram.mem[ad+1].val)+1)
+        elif irv==self.jma and self.fa=="1":self.marx.val=byt(num(ram.mem[ad+1].val)+1)
+        elif irv==self.jna and self.fa=="0":self.marx.val=byt(num(ram.mem[ad+1].val)+1)
+        elif irv==self.jme and self.fe=="1":self.marx.val=byt(num(ram.mem[ad+1].val)+1)
+        elif irv==self.jne and self.fe=="0":self.marx.val=byt(num(ram.mem[ad+1].val)+1)
+        elif irv==self.jmz and self.fz=="1":self.marx.val=byt(num(ram.mem[ad+1].val)+1)
+        elif irv==self.jnz and self.fz=="0":self.marx.val=byt(num(ram.mem[ad+1].val)+1)
+        elif irv==self.pxi:gpu.mx,gpu.my,self.gpuop,self.gpu.val=self.x.val,self.y.val,self.gs1,self.a.val
+        elif irv==self.wri:gpu.mx,gpu.my,gpu.mv,self.gpuop,self.gpu.val=self.x.val,self.y.val,self.v.val,self.gwv,self.a.val
+        elif irv==self.call:self.marx.val,stk.mem[sd]=ram.mem[ad+1].val,self.iar.val
+        elif irv==self.ret:self.iar.val=self.marx.val=byt(num(stk.mem[sd].val)+1)
+        elif irv==self.ldca:self.a.val,self.marx.val=drv.cur(num(ram.mem[ad+1].val)).val,byt(num(self.marx.val)+1)
+        elif irv==self.stid:drv.loc,self.marx.val=ram.mem[ad+1].val,byt(num(self.marx.val)+1)
+
+
     def tick(self,clk,s,ram,stk,drv):
         self.gpuop="000"
         alut=""
@@ -213,10 +279,11 @@ class CPU:
         # print(op,a,b)
         if op==self.inc:
             b=byt(1)
-            op="add"
+            op=self.addop
         elif op==self.dec:
+            return byt(num(a)-1)
             b=byt(1)
-            op="sub"
+            op=self.subop
         if op==self.notop:
             self.fc="0" 
             return "".join([str(nt(i)) for i in a])
@@ -228,6 +295,7 @@ class CPU:
             return "0"+a[:len(a)-1]
         elif op==self.addop:
             # input("add")
+            return byt(num(a)+num(b))
             return ula.oper(a,b,"0","add")[0]
         elif op==self.subop:
             return ula.oper(a,b,"0","sub")[0]

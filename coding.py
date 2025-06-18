@@ -9,7 +9,7 @@ almost equivilant of tearing it all down and rebuilding...
 """
 # def rect(rect_x,rect_y,rect_w,rect_h);for rect_yi rect_y <rect_h +=1;for rect_xi rect_x <rect_w +=1;pxl(rect_xi,rect_yi);frd;frd;disp();fcd 
 code=""
-with open("codeFiles/main.burb")as main:
+with open("codeFiles/boot.burb")as main:
     code=main.read().replace("width",str(av.scrnWdth)).replace("height",str(av.scrnHght)).replace(";","\n")
 # code="""
 # var x=0
@@ -245,6 +245,9 @@ def lines(l,ifover=False):
             tok("lya")
             tok("lda COLOUR")
             tok("pxi")
+        elif l[0][0]=="setFile":
+            l=l[0]
+            tok("l")
         else:
             l=l[0]
             for x,i in enumerate(l[1:]):

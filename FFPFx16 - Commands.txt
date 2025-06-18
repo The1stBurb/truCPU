@@ -18,7 +18,6 @@ psh(a or b) - push a or b onto stack (does not increment the stack pointer)
 pop(a or b) - take whts on the stack and store into a or b (does not decrement the stack pointer)
 add, sub, or, xor - does this alu op and stores to a, i.e. for add a+b->a
 cmp - compares a and b, sets flags
-ld(a or b)v value - load value into a or b
 jmp addr - jump to address plus 1
 thes are jump ops based of flags: jmz - jump if Zero, jnz - jump if not Zero, jmc - jump if CarryOut, jnc - jump if not CarryOut, jme - jump if Equal, jne - jump if not Equal, jma - jump if ALarger, jna - jump if not ALarger
 pxi - turns on pixel and sets VRAM to value in a register at register x,register y (X,Y)

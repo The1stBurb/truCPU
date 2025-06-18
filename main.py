@@ -2,7 +2,7 @@ from time import sleep,perf_counter_ns
 from RAM import RAM
 from CPU import CPU,num
 from GPU import GPU
-from DRIVE import DRIVE
+from file_drive import drv
 from register import STPR,STACK,CLK
 from assemb import mac
 
@@ -11,7 +11,7 @@ ram=RAM().build(mac)
 cpu=CPU()
 gpu=GPU()
 clk=CLK()
-drv=DRIVE()
+# drv=DRIVE()
 stp=STPR()
 stk=STACK()
 # print(not 1)
@@ -24,7 +24,8 @@ while True:
     # try:
     clk.tick()
     stp.tick(clk)
-    if cpu.tick(clk,stp,ram,stk,drv)=="HLT":
+    cpuRet=cpu.fastTick(ram,stk,drv,gpu)#tick(clk,stp,ram,stk,drv)
+    if cpuRet=="HLT":
         break
     cpu.disp(ram,stk)
     gpu.tick(clk,stp,cpu.gpu.val,cpu.gpuop,(cpu.fc,cpu.fa,cpu.fe,cpu.fz))
