@@ -247,7 +247,14 @@ def lines(l,ifover=False):
             tok("pxi")
         elif l[0][0]=="setFile":
             l=l[0]
-            tok("l")
+            if l[1] in var:tok(f"stid {l[1]}")
+            else:tok(f"stid #{l[1]}")
+        elif l[0][0]=="getData":
+            l=l[0]
+            # print("i did it")
+            if l[1] in var:tok(f"ldca {l[1]}")
+            else:tok(f"ldca #{l[1]}")#i gotta do var thing here erg
+            tok(f"sta #{tk+3}")
         else:
             l=l[0]
             for x,i in enumerate(l[1:]):
@@ -264,7 +271,7 @@ def lines(l,ifover=False):
             stop=True
             tok("hlt")
         l=args(l[1])[0]
-        print(l)
+        # print(l)
         for i in l[1:]:
             var[i]=["0","int"]
         asm.append(f"{l[0]}:")
@@ -391,6 +398,7 @@ for i in var:
     var[i]=p
     # print(p,i)
 tk=0
+# print(asembly)
 for x,line in enumerate(asm):
     if ";"in line:
         line=line[:line.find(";")]

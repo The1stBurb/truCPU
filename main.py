@@ -7,7 +7,7 @@ from register import STPR,STACK,CLK
 from assemb import mac
 
 import pygame
-ram=RAM().build(mac)
+ram=RAM().build(mac)                                    
 cpu=CPU()
 gpu=GPU()
 clk=CLK()
@@ -24,7 +24,8 @@ while True:
     # try:
     clk.tick()
     stp.tick(clk)
-    cpuRet=cpu.fastTick(ram,stk,drv,gpu)#tick(clk,stp,ram,stk,drv)
+    # cpuRet=cpu.fastTick(ram,stk,drv,gpu)#
+    cpuRet=cpu.tick(clk,stp,ram,stk,drv)
     if cpuRet=="HLT":
         break
     cpu.disp(ram,stk)
@@ -37,6 +38,7 @@ while True:
     # sleep(0.01)
     # input()
     print(f"running addr:{num(cpu.marx.val)}|{clk}|{stp.cur()}",end="\r")
+    # input("")
     # if clk.s and stp.s1:input("fish")
 end=perf_counter_ns()
 gpu.display(())

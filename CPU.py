@@ -1,6 +1,6 @@
 from register import REG
 from time import sleep
-from allVars import rect,font,screen
+from allVars import rect,font,screen,scrnWdth
 from allFuncs import byts,num,byt,bitSize
 import pygame
 from ALU import ALU
@@ -77,14 +77,19 @@ class CPU:
         ad=num(self.marx.val)
         sd=num(self.sp.val)
         self.ir.val=ram.mem[ad].val
-        self.iar.val=byt(num(self.marx.val)+1)
+        self.iar.val=self.marx.val=byt(num(self.iar.val)+1)
+        if irv==300:input("ldca")
         if irv==self.hlt:return "HLT"
-        elif irv==self.lda:self.a.val,self.marx.val=ram.mem[num(ram.mem[ad+1].val)].val,byt(num(self.marx.val)+1)
-        elif irv==self.ldb:self.b.val,self.marx.val=ram.mem[num(ram.mem[ad+1].val)].val,byt(num(self.marx.val)+1)
-        elif irv==self.ldav:self.a.val,self.marx.val=ram.mem[ad+1].val,byt(num(self.marx.val)+1)
-        elif irv==self.ldbv:self.b.val,self.marx.val=ram.mem[ad+1].val,byt(num(self.marx.val)+1)
-        elif irv==self.sta:ram.mem[num(ram.mem[ad+1])].val,self.marx.val=self.a.val,byt(num(self.marx.val)+1)
-        elif irv==self.stb:ram.mem[num(ram.mem[ad+1])].val,self.marx.val=self.b.val,byt(num(self.marx.val)+1)
+        elif irv==self.lda:
+            # input(num(ram.mem[num(ram.mem[ad].val)]))
+            self.a.val,self.iar.val=ram.mem[num(ram.mem[ad].val)].val,byt(num(self.iar.val)+1)
+        elif irv==self.ldb:self.b.val,self.iar.val=ram.mem[num(ram.mem[ad].val)].val,byt(num(self.marx.val)+1)
+        elif irv==self.ldav:
+            # input(num(ram.mem[ad].val))
+            self.a.val,self.iar.val=ram.mem[ad].val,byt(num(self.iar.val)+1)
+        elif irv==self.ldbv:self.b.val,self.iar.val=ram.mem[ad].val,byt(num(self.iar.val)+1)
+        elif irv==self.sta:ram.mem[num(ram.mem[ad].val)].val,self.iar.val=self.a.val,byt(num(self.iar.val)+1)
+        elif irv==self.stb:ram.mem[num(ram.mem[ad].val)].val,self.iar.val=self.b.val,byt(num(self.iar.val)+1)
         elif irv==self.nota:self.a.val="".join([str(nt(i)) for i in self.a.val])
         elif irv==self.notb:self.b.val="".join([str(nt(i)) for i in self.b.val])
         elif irv==self.shla:self.a.val=self.a.val[1:]+"0"
@@ -97,9 +102,9 @@ class CPU:
         elif irv==self.lyb:self.y.val=self.b.val
         elif irv==self.lva:self.v.val=self.a.val
         elif irv==self.lvb:self.v.val=self.b.val
-        elif irv==self.lxv:self.x.val,self.marx.val=ram.mem[ad+1].val,byt(num(self.marx.val)+1)
-        elif irv==self.lyv:self.y.val,self.marx.val=self.a.val,byt(num(self.marx.val)+1)
-        elif irv==self.lvv:self.v.val,self.marx.val=self.a.val,byt(num(self.marx.val)+1)
+        elif irv==self.lxv:self.x.val,self.iar.val=ram.mem[ad].val,byt(num(self.iar.val)+1)
+        elif irv==self.lyv:self.y.val,self.iar.val=self.a.val,byt(num(self.iar.val)+1)
+        elif irv==self.lvv:self.v.val,self.iar.val=self.a.val,byt(num(self.iar.val)+1)
         elif irv==self.inca:self.a.val=byt(num(self.a.val)+1)
         elif irv==self.incb:self.b.val=byt(num(self.b.val)+1)
         elif irv==self.deca:self.a.val=byt(num(self.a.val)-1)
@@ -119,21 +124,25 @@ class CPU:
             self.fa="1" if num(self.a.val)>num(self.b.val) else "0"
             self.fe="1" if num(self.a.val)==num(self.b.val) else "0"
             self.fz="0" if "1" in self.a.val else "1"
-        elif irv==self.jmp:self.marx.val=byt(num(ram.mem[ad+1].val)+1)
-        elif irv==self.jmc and self.fc=="1":self.marx.val=byt(num(ram.mem[ad+1].val)+1)
-        elif irv==self.jnc and self.fc=="0":self.marx.val=byt(num(ram.mem[ad+1].val)+1)
-        elif irv==self.jma and self.fa=="1":self.marx.val=byt(num(ram.mem[ad+1].val)+1)
-        elif irv==self.jna and self.fa=="0":self.marx.val=byt(num(ram.mem[ad+1].val)+1)
-        elif irv==self.jme and self.fe=="1":self.marx.val=byt(num(ram.mem[ad+1].val)+1)
-        elif irv==self.jne and self.fe=="0":self.marx.val=byt(num(ram.mem[ad+1].val)+1)
-        elif irv==self.jmz and self.fz=="1":self.marx.val=byt(num(ram.mem[ad+1].val)+1)
-        elif irv==self.jnz and self.fz=="0":self.marx.val=byt(num(ram.mem[ad+1].val)+1)
-        elif irv==self.pxi:gpu.mx,gpu.my,self.gpuop,self.gpu.val=self.x.val,self.y.val,self.gs1,self.a.val
+        elif irv==self.jmp:self.iar.val=byt(num(ram.mem[ad].val)+1)
+        elif irv==self.jmc and self.fc=="1":self.iar.val=byt(num(ram.mem[ad].val)+1)
+        elif irv==self.jnc and self.fc=="0":self.iar.val=byt(num(ram.mem[ad].val)+1)
+        elif irv==self.jma and self.fa=="1":self.iar.val=byt(num(ram.mem[ad].val)+1)
+        elif irv==self.jna and self.fa=="0":self.iar.val=byt(num(ram.mem[ad].val)+1)
+        elif irv==self.jme and self.fe=="1":self.iar.val=byt(num(ram.mem[ad].val)+1)
+        elif irv==self.jne and self.fe=="0":self.iar.val=byt(num(ram.mem[ad].val)+1)
+        elif irv==self.jmz and self.fz=="1":self.iar.val=byt(num(ram.mem[ad].val)+1)
+        elif irv==self.jnz and self.fz=="0":self.iar.val=byt(num(ram.mem[ad].val)+1)
+        elif irv==self.pxi:
+            print(num(self.x.val),num(self.y.val)*scrnWdth)
+            gpu.mem[num(self.y.val)*scrnWdth+num(self.x.val)].val=self.a.val#gpu.mx,gpu.my,self.gpuop,self.gpu.val=self.x.val,self.y.val,self.gs1,self.a.val
         elif irv==self.wri:gpu.mx,gpu.my,gpu.mv,self.gpuop,self.gpu.val=self.x.val,self.y.val,self.v.val,self.gwv,self.a.val
-        elif irv==self.call:self.marx.val,stk.mem[sd]=ram.mem[ad+1].val,self.iar.val
+        elif irv==self.call:self.marx.val,stk.mem[sd]=ram.mem[ad].val,self.iar.val
         elif irv==self.ret:self.iar.val=self.marx.val=byt(num(stk.mem[sd].val)+1)
-        elif irv==self.ldca:self.a.val,self.marx.val=drv.cur(num(ram.mem[ad+1].val)).val,byt(num(self.marx.val)+1)
-        elif irv==self.stid:drv.loc,self.marx.val=ram.mem[ad+1].val,byt(num(self.marx.val)+1)
+        elif irv==self.ldca:
+            self.a.val,self.iar.val=drv.cur(num(ram.mem[ad].val)).val,byt(num(self.iar.val)+1)
+            input(f"\nldca: {self.a.val}")
+        elif irv==self.stid:drv.loc,self.iar.val=ram.mem[ad].val,byt(num(self.iar.val)+1)
 
 
     def tick(self,clk,s,ram,stk,drv):
@@ -193,6 +202,7 @@ class CPU:
             elif irv==self.lxv:ram.mem[ad].e,self.x.s=clk.e,clk.s
             elif irv==self.lyv:ram.mem[ad].e,self.y.s=clk.e,clk.s
             elif irv==self.lvv:ram.mem[ad].e,self.v.s=clk.e,clk.s
+            # elif irv==self.ldca:self.a.
         elif s.s5:
             if irv==self.lda:self.a.s,ram.mem[ad].e=clk.s,clk.e
             elif irv==self.ldb:self.b.s,ram.mem[ad].e=clk.s,clk.e

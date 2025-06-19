@@ -1,25 +1,32 @@
 # displayMode=manual
-var scrn_sz=1
-fill(3,3,13)
-def renderImg()
-    setFile(1)
+# var scrn_sz=1
+# fill(13,15,15)
+# COLOUR=2000
+# pxl(0,0)
+renderImg(1,1)
+def renderImg(renderImg_scale,renderImg_file)
+    setFile(renderImg_file)
+    pxl(renderImg_file,0)
     var renderImg_w=0
     renderImg_w=getData(0)
+    pxl(renderImg_w,1)
     var renderImg_h=0
     renderImg_h=getData(1)
+    pxl(renderImg_h,2)
     var renderImg_ind=2
     var renderImg_dat=0
     var renderImg_x=0
     var renderImg_y=0
-    for renderImg_iy 0 <=renderImg_h +=1
-        for renderImg_ix o <=renderImg_w +=1
-            renderImg_dat=getData(renderIg_ind)
-            renderImg_ind=add(renderImg_ind)
-            renderImg_x=mult(renderImg_ix,scrn_sz)
-            renderImg_y=mult(renderImg_iy,scrn_sz)
-            pxl(renderImg_x,renderImg_y)
-        frd
-    frd
+    # for renderImg_iy 0 <=renderImg_h +=1
+    #     for renderImg_ix 0 <=renderImg_w +=1
+    #         renderImg_dat=getData(renderIg_ind)
+    #         renderImg_ind=add(renderImg_ind)
+    #         renderImg_x=mult(renderImg_ix,renderImg_scale)
+    #         renderImg_y=mult(renderImg_iy,renderImg_scale)
+    #         pxl(renderImg_x,renderImg_y)
+    #     frd
+    # frd
+fcd
 def mult(mult_a,mult_b)
     var mult_x=0
     var mult_a1=0
@@ -42,42 +49,42 @@ def add(add_a,add_b)
     add_a+=add_b
     return add_a
 fcd
-def div(div_a,div_b)
-    var div_t=0
-    while div_a>div_b
-        div_a-=div_b
-        div_t+=1
-    whd
-    # pxl(div_t,3)
-    return div_t
-fcd
-def sub(sub_a,sub_b)
-    sub_a-=sub_b
-    return sub_a
-fcd
-def fill(fill_red,fill_green,fill_blue) 
-    var fill_temp=0
-    # fill_red=div(fill_red,17)
-    # fill_green=div(fill_green,17)
-    # fill_blue=div(fill_green,17)
-    COLOUR=fill_blue
-    fill_temp=mult(fill_green,16)
-    COLOUR=add(COLOUR,fill_temp)
-    fill_temp=mult(fill_red,256)
-    # fill_temp=mult(fill_temp,16)
-    COLOUR=add(COLOUR,fill_temp)
-fcd
-def rect(rect_x,rect_y,rect_w,rect_h)
-    var rect_x2=0
-    # rect_x2=add(rect_x,rect_w)
-    var rect_y2=0
-    # rect_y2=add(rect_y,rect_h)
-    for rect_iy 0 <=rect_h +=1
-        for rect_ix 0 <=rect_h +=1
-            rect_x2=add(rect_ix,rect_x)
-            rect_y2=add(rect_iy,rect_y)
-            pxl(rect_x2,rect_y2)
-        frd
-    frd
-    disp()
-fcd
+# def div(div_a,div_b)
+#     var div_t=0
+#     while div_a>div_b
+#         div_a-=div_b
+#         div_t+=1
+#     whd
+#     # pxl(div_t,3)
+#     return div_t
+# fcd
+# def sub(sub_a,sub_b)
+#     sub_a-=sub_b
+#     return sub_a
+# fcd
+# def fill(fill_red,fill_green,fill_blue) 
+#     var fill_temp=0
+#     # fill_red=div(fill_red,17)
+#     # fill_green=div(fill_green,17)
+#     # fill_blue=div(fill_green,17)
+#     COLOUR=fill_blue
+#     fill_temp=mult(fill_green,16)
+#     COLOUR=add(COLOUR,fill_temp)
+#     fill_temp=mult(fill_red,256)
+#     # fill_temp=mult(fill_temp,16)
+#     COLOUR=add(COLOUR,fill_temp)
+# fcd
+# def rect(rect_x,rect_y,rect_w,rect_h)
+#     var rect_x2=0
+#     # rect_x2=add(rect_x,rect_w)
+#     var rect_y2=0
+#     # rect_y2=add(rect_y,rect_h)
+#     for rect_iy 0 <=rect_h +=1
+#         for rect_ix 0 <=rect_h +=1
+#             rect_x2=add(rect_ix,rect_x)
+#             rect_y2=add(rect_iy,rect_y)
+#             pxl(rect_x2,rect_y2)
+#         frd
+#     frd
+#     disp()
+# fcd

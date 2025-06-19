@@ -80,10 +80,12 @@ ops={
 # call loop
 # hlt
 # """
-asembly="""
-stid #1
-
-"""
+# asembly="""
+# stid #1
+# lxa
+# lda #4095
+# pxi
+# """
 lines = asembly.split("\n")
 if lines[-1]!="hlt":
     lines.append("hlt")
@@ -124,6 +126,7 @@ for line in lines:
         continue
 
     lvl2.append(op)
+    # if op=="ldca":input("ldca"+str(ops[op]))
     mac.append(byt(ops[op]))
 
     for arg in tokens[1:]:
@@ -148,8 +151,9 @@ for line in lines:
 
 # Resolve label references
 for idx, code in enumerate(mac):
+    # if code==byt(300):input("ldca2")
     if code in stats:
         mac[idx] = byt(stats[code])
-
+# if [300] in mac:print("ldca")
 # print(mac,len(mac))
-input()
+# input()
