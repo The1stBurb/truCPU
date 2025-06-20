@@ -81,15 +81,15 @@ ops={
 # call loop
 # hlt
 # """
-asembly="""
-ldca #0
-lxa
-ldav #0
-lya
-lda #4095
-pxi
-disp
-"""
+# asembly="""
+# ldca #0
+# lxa
+# ldav #0
+# lya
+# lda #4095
+# pxi
+# disp
+# """
 lines = asembly.split("\n")
 if lines[-1]!="hlt":
     lines.append("hlt")
