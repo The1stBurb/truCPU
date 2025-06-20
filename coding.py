@@ -256,7 +256,10 @@ def lines(l,ifover=False):
         elif l[0][0]=="getData":
             l=l[0]
             # print("i did it")
-            if l[1] in var:tok(f"ldca {l[1]}")
+            if l[1] in var:
+                tok(f"lda {l[1]}")
+                tok(f"sta #{tk+3}")
+                tok(f"ldca #0")
             else:tok(f"ldca #{l[1]}")#i gotta do var thing here erg
             tok(f"sta #{tk+3}")
         else:

@@ -42,6 +42,7 @@ class GPU:
                 self.mem[st].st("00000000")
                 str(self.mem[st])
         elif op==self.s1:
+            if num(self.mx)>scrnWdth:return
             st=num(self.my)*scrnWdth+num(self.mx)
             if st<len(self.mem):
                 self.mem[st].s=1

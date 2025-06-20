@@ -205,7 +205,9 @@ class CPU:
             elif irv==self.lxv:ram.mem[ad].e,self.x.s=clk.e,clk.s
             elif irv==self.lyv:ram.mem[ad].e,self.y.s=clk.e,clk.s
             elif irv==self.lvv:ram.mem[ad].e,self.v.s=clk.e,clk.s
-            elif irv==self.ldca:self.a.s,drv.e,drva=clk.s,clk.e,num(ram.mem[ad].val)
+            elif irv==self.ldca:
+                # if clk.s:input(num(ram.mem[ad].val))
+                self.a.s,drv.e,drva=clk.s,clk.e,num(ram.mem[ad].val)
             elif irv==self.dbg:print(self.a.val,num(self.a.val))
             # elif irv==self.ldca:self.a.
         elif s.s5:

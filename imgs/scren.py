@@ -53,7 +53,7 @@ with open("codeFiles/CrimsonTreeOS.img","w")as ctos:
     s=byt(len(rgb[0]))+byt(len(rgb))
     for i in rgb:
         for j in i:
-            s+=byt(round(j[0]/10.2)*256+round(j[1]/10.2)*16+round(j[0]/10.2))
+            s+=byt(round(j[0]/10.2)*256+round(j[1]/10.2)*16+round(j[2]/10.2))
     ctos.write(s)
 pygame.quit()
 quit()

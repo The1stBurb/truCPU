@@ -18,8 +18,8 @@ def renderImg(renderImg_scale,renderImg_file)
     var renderImg_x=0
     var renderImg_y=0
     disp()
-    for renderImg_iy 0 <=renderImg_h +=1
-        for renderImg_ix 0 <=renderImg_w +=1
+    for renderImg_iy 0 <renderImg_h +=1
+        for renderImg_ix 0 <renderImg_w +=1
             COLOUR=getData(renderImg_ind)
             renderImg_ind+=1
             pxl(renderImg_ind,50)
