@@ -249,6 +249,10 @@ def lines(l,ifover=False):
             l=l[0]
             if l[1] in var:tok(f"stid {l[1]}")
             else:tok(f"stid #{l[1]}")
+        elif l[0][0]=="debug":
+            l=l[0]
+            if len(l)>1:tok(f"ldav {l[1]}")
+            tok("dbg")
         elif l[0][0]=="getData":
             l=l[0]
             # print("i did it")

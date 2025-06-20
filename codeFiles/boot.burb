@@ -1,11 +1,11 @@
-# displayMode=manual
+displayMode=manual
 # var scrn_sz=1
 # fill(13,15,15)
 # COLOUR=2000
 # pxl(0,0)
-renderImg(1,1)
+renderImg(1,0)
 def renderImg(renderImg_scale,renderImg_file)
-    setFile(renderImg_file)
+    # setFile(renderImg_file)
     pxl(renderImg_file,0)
     var renderImg_w=0
     renderImg_w=getData(0)
@@ -17,15 +17,21 @@ def renderImg(renderImg_scale,renderImg_file)
     var renderImg_dat=0
     var renderImg_x=0
     var renderImg_y=0
-    # for renderImg_iy 0 <=renderImg_h +=1
-    #     for renderImg_ix 0 <=renderImg_w +=1
-    #         renderImg_dat=getData(renderIg_ind)
-    #         renderImg_ind=add(renderImg_ind)
-    #         renderImg_x=mult(renderImg_ix,renderImg_scale)
-    #         renderImg_y=mult(renderImg_iy,renderImg_scale)
-    #         pxl(renderImg_x,renderImg_y)
-    #     frd
-    # frd
+    disp()
+    for renderImg_iy 0 <=renderImg_h +=1
+        for renderImg_ix 0 <=renderImg_w +=1
+            COLOUR=getData(renderImg_ind)
+            renderImg_ind+=1
+            pxl(renderImg_ind,50)
+            # debug(COLOUR)
+            #add(renderImg_ind,1)
+            # renderImg_x=mult(renderImg_ix,renderImg_scale)
+            # renderImg_y=mult(renderImg_iy,renderImg_scale)
+            pxl(renderImg_ix,renderImg_iy)
+        frd
+        disp()
+    frd
+    disp()
 fcd
 def mult(mult_a,mult_b)
     var mult_x=0

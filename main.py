@@ -18,6 +18,7 @@ stk=STACK()
 # input()
 start=perf_counter_ns()
 gpu.display(())
+# input(mac[49:51])
 while True:
     # print("\033c",end="")
     # print(ram)

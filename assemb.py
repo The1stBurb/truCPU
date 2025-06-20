@@ -11,6 +11,7 @@ ops={
     "int1":128,"int2":129,"int3":130,"int4":131,"int5":132,"int6":133,"int7":134,"int8":135,
     "hlt":255,
     "ldca":300,"stid":301,
+    "dbg":456,
 }
 #repr(input("fish>"))
 # asembly="""
@@ -80,12 +81,15 @@ ops={
 # call loop
 # hlt
 # """
-# asembly="""
-# stid #1
-# lxa
-# lda #4095
-# pxi
-# """
+asembly="""
+ldca #0
+lxa
+ldav #0
+lya
+lda #4095
+pxi
+disp
+"""
 lines = asembly.split("\n")
 if lines[-1]!="hlt":
     lines.append("hlt")

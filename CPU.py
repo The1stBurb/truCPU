@@ -68,11 +68,13 @@ class CPU:
         self.int1,self.int2,self.int3,self.int4,self.int4,self.int5,self.int6,self.int7,self.int8=128,129,130,131,132,133,134,135,136
         self.hlt=255
         self.ldca,self.stid=300,301
+        self.dbg=456
         self.addop,self.subop,self.andop,self.orop,self.xorop,self.shl,self.shr,self.inc,self.dec,self.cmpop,self.notop="000","001","010","011","100","0110","0111","1000","1001","11101","0101"
         self.gpuop,self.gsx,self.gsy,self.gs0,self.gs1,self.gsv,self.gwv="000","001","010","011","100","101","110"
         self.gdsp="123"
     def fastTick(self,ram,stk,drv,gpu):
         self.gpuop="000"
+        # if self.ir.val=="0000000100101100":input("found it ahhhh")
         irv=num(self.ir.val)
         ad=num(self.marx.val)
         sd=num(self.sp.val)
@@ -148,6 +150,7 @@ class CPU:
     def tick(self,clk,s,ram,stk,drv):
         self.gpuop="000"
         alut=""
+        drva=0
         irv=num(self.ir.val)
         # print(irv)
         # if num(self.iar.val)>20:
@@ -202,6 +205,8 @@ class CPU:
             elif irv==self.lxv:ram.mem[ad].e,self.x.s=clk.e,clk.s
             elif irv==self.lyv:ram.mem[ad].e,self.y.s=clk.e,clk.s
             elif irv==self.lvv:ram.mem[ad].e,self.v.s=clk.e,clk.s
+            elif irv==self.ldca:self.a.s,drv.e,drva=clk.s,clk.e,num(ram.mem[ad].val)
+            elif irv==self.dbg:print(self.a.val,num(self.a.val))
             # elif irv==self.ldca:self.a.
         elif s.s5:
             if irv==self.lda:self.a.s,ram.mem[ad].e=clk.s,clk.e
@@ -212,7 +217,7 @@ class CPU:
             elif irv in [self.notb,self.shlb,self.shrb,self.incb,self.decb]:self.acc.e,self.b.s=clk.e,clk.s
             elif irv in [self.incsp,self.decsp]:self.acc.e,self.sp.s=clk.e,clk.e
             
-            elif irv in [self.jmp,(self.jmc if self.fc!="1" else self.jnc),(self.jmz if self.fz!="1" else self.jnz),(self.jme if self.fe!="1" else self.jne),(self.jma if self.fa!="1" else self.jna),self.lxv,self.lyv,self.lvv]:self.iar.e,alut,self.acc.s=clk.e,self.inc,clk.s
+            elif irv in [self.jmp,(self.jmc if self.fc!="1" else self.jnc),(self.jmz if self.fz!="1" else self.jnz),(self.jme if self.fe!="1" else self.jne),(self.jma if self.fa!="1" else self.jna),self.lxv,self.lyv,self.lvv,self.ldca]:self.iar.e,alut,self.acc.s=clk.e,self.inc,clk.s
             elif irv in [self.pxi,self.pxo,self.wri]:self.gpu.s,self.y.e,self.gpuop=clk.s,clk.e,self.gsy
             # elif irv==self.axi:self.b.e,self.gpu.s,self.gpuop=clk.e,clk.s,self.gsy
             elif irv==self.call:ram.mem[ad].e,self.marx.s,self.iar.s=clk.e,clk.s,clk.s
@@ -223,7 +228,7 @@ class CPU:
             elif irv in[self.add,self.sub,self.ro,self.xor,self.nad]:self.a.e,alut,self.acc.s=clk.e,(self.addop if irv==self.add else(self.subop if irv==self.sub else(self.orop if irv==self.ro else (self.xorop if irv==self.xor else self.andop)))),clk.s
         elif s.s6:
             if irv in [self.lda,self.ldb,self.sta,self.stb]:self.iar.e,alut,self.acc.s=clk.e,self.inc,clk.s
-            elif irv in [self.jmp,(self.jmc if self.fc!="1" else self.jnc),(self.jmz if self.fz!="1" else self.jnz),(self.jme if self.fe!="1" else self.jne),(self.jma if self.fa!="1" else self.jna),self.lxv,self.lyv,self.lvv]:self.iar.s,self.acc.e,self.marx.s=clk.s,clk.e,clk.s
+            elif irv in [self.jmp,(self.jmc if self.fc!="1" else self.jnc),(self.jmz if self.fz!="1" else self.jnz),(self.jme if self.fe!="1" else self.jne),(self.jma if self.fa!="1" else self.jna),self.lxv,self.lyv,self.lvv,self.ldca]:self.iar.s,self.acc.e,self.marx.s=clk.s,clk.e,clk.s
             elif irv==self.wri:self.gpu.s,self.v.e,self.gpuop=clk.s,clk.e,(self.gwv if clk.s else "000")
             elif irv==self.pxi:self.gpuop,self.gpu.s,self.a.e=self.gs1,clk.s,clk.e
             elif irv==self.pxo:self.gpuop=self.gs0
@@ -264,7 +269,7 @@ class CPU:
         # print(ad)
         # print(ram.mem[ad])
         # print(ram.mem[ad].val)
-        self.bus.st(self.a.ena(self.b.ena(self.sp.ena(self.marx.ena(self.ir.ena(self.iar.ena(self.acc.ena(ram.mem[ad].ena(stk.mem[sd].ena(self.gpu.ena(self.int.ena(self.x.ena(self.y.ena(self.v.ena(REG().val)))))),clk.e),clk.e),clk.e),clk.e),clk.e),clk.e),clk.e),clk.e))
+        self.bus.st(self.a.ena(self.b.ena(self.sp.ena(self.marx.ena(self.ir.ena(self.iar.ena(self.acc.ena(ram.mem[ad].ena(stk.mem[sd].ena(self.gpu.ena(self.int.ena(self.x.ena(self.y.ena(self.v.ena(drv.ena(REG().val,drva))))))),clk.e),clk.e),clk.e),clk.e),clk.e),clk.e),clk.e),clk.e))
         self.a.st(self.bus.val,clk.s)
         self.b.st(self.bus.val,clk.s)
         self.sp.st(self.bus.val,clk.s)
