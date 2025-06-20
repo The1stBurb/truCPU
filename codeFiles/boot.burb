@@ -1,8 +1,8 @@
 displayMode=manual
 # var scrn_sz=1
-# fill(13,15,15)
+fill(5,8,5)
 # COLOUR=2000
-# pxl(0,0)
+pxl(50,50)
 renderImg(1,0)
 def renderImg(renderImg_scale,renderImg_file)
     # setFile(renderImg_file)
@@ -68,18 +68,18 @@ fcd
 #     sub_a-=sub_b
 #     return sub_a
 # fcd
-# def fill(fill_red,fill_green,fill_blue) 
-#     var fill_temp=0
-#     # fill_red=div(fill_red,17)
-#     # fill_green=div(fill_green,17)
-#     # fill_blue=div(fill_green,17)
-#     COLOUR=fill_blue
-#     fill_temp=mult(fill_green,16)
-#     COLOUR=add(COLOUR,fill_temp)
-#     fill_temp=mult(fill_red,256)
-#     # fill_temp=mult(fill_temp,16)
-#     COLOUR=add(COLOUR,fill_temp)
-# fcd
+def fill(fill_red,fill_green,fill_blue) 
+    var fill_temp=0
+    # fill_red=div(fill_red,17)
+    # fill_green=div(fill_green,17)
+    # fill_blue=div(fill_green,17)
+    COLOUR=fill_blue
+    fill_temp=mult(fill_green,16)
+    COLOUR=add(COLOUR,fill_temp)
+    fill_temp=mult(fill_red,256)
+    # fill_temp=mult(fill_temp,16)
+    COLOUR=add(COLOUR,fill_temp)
+fcd
 # def rect(rect_x,rect_y,rect_w,rect_h)
 #     var rect_x2=0
 #     # rect_x2=add(rect_x,rect_w)

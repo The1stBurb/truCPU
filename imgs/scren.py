@@ -49,11 +49,13 @@ def byt(n,lon=False):
             s+="0"
 
     return bin_hex(s)
+s=""
 with open("codeFiles/CrimsonTreeOS.img","w")as ctos:
     s=byt(len(rgb[0]))+byt(len(rgb))
     for i in rgb:
         for j in i:
-            s+=byt(round(j[0]/10.2)*256+round(j[1]/10.2)*16+round(j[2]/10.2))
+            s+=byt(round(j[0]/17)*256+round(j[1]/17)*16+round(j[2]/17))
     ctos.write(s)
+    print(" |".join([s[i:i+4] for i in range(0,len(s),4)]))
 pygame.quit()
 quit()
