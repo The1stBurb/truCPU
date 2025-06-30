@@ -1,4 +1,5 @@
 import allVars as av
+from allVars import ltrs
 from allFuncs import byt,COLOUR
 from random import randint
 asm=[]
@@ -37,7 +38,7 @@ with open("codeFiles/boot.burb")as main:
 # Time()-returns time in seconds
 # Millis()-returns time In milliseconds since program started
 # Sleep(len)
-var={"seed":[str(randint(0,255)),"int"],"COLOUR":["4095","int"]}
+var={"seed":[str(randint(0,255)),"int"],"COLOUR":["0","int"]}
 fnc={}
 flgs={}
 tk=0
@@ -78,23 +79,29 @@ def fish(l):
         except:pass
     # print("why no work")
 stop=False
+ltr="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890.,:;'\"!? +-*=%$#~()<>{}[]|/\\"
 def lines(l,ifover=False):
-    print(type(l),l)
+    # print(type(l),l)
     if l is None:return""
     # print(l)
     global asm,tk,var,fnc,flgs,lp,stop
     if l[0]=="var":
         l=l[1].split("=")
-        if l[1]in var:
-            tok(f"lda {l[1]}")
-            l[1]=var[l[1]][0]
-            # print(l[1],pl)
-        else:tok(f"ldav #{l[1]}")
-        var[l[0]]=[l[1],typ(l[1])]
+        t=typ(l[1])
+        if t=="str":
+            tok(f"ldav #{len(l[1])-2}")
+        else:
+            if l[1]in var:
+                tok(f"lda {l[1]}")
+                l[1]=var[l[1]][0]
+                # print(l[1],pl)
+            else:tok(f"ldav #{l[1]}")
+        var[l[0]]=[l[1],t]
         tok(f"sta {l[0]}")
         # tok(f"lda")
     elif "+="in l[0]:
         l=l[0].split("+=")
+        print(l)
         fm=""
         lm=""
         if "["in l[0]:
@@ -109,9 +116,11 @@ def lines(l,ifover=False):
         ft=var[l[0]][1]
         if l[1]in var:lt=var[l[1]][1]
         else:lt=typ(l[1])
+        print(ft,lt)
         # print(f"{l[0]}|{l[1]}|{ft}|{lt}|")
         if ft=="int":
             if lt=="int":
+                # print(l,"fish")
                 tok(f"lda {l[0]}")
                 if l[1] in var:tok(f"ldb {l[1]}")
                 else:tok(f"ldbv #{l[1]}")
@@ -148,8 +157,10 @@ def lines(l,ifover=False):
         l=l[0].split("=")
         fm=""
         lm=""
+        # print(l)
         if "["in l[0]:
             b=l[0].index("[")
+            # print(l[0],b)
             fm=l[0][b+1:len(l[0])-1]
             l[0]=l[0][:b]
         if "["in l[1]:
@@ -161,13 +172,21 @@ def lines(l,ifover=False):
         if l[1]in var:lt=var[l[1]][1]
         elif "("in l[1]:lt="func"
         else:lt=typ(l[1])
+        # print(ft,lt)
         if ft=="str":
             if lt=="str":
-                tok(f"ldav {l[0]}")
+                # print(l)
+                tok(f"ldav {l[1]}")
                 tok(f"ldbv #{fm}")
+                # tok("incb")
                 tok("add")
-                if l[1]in var:tok(f"ldb {l[1]}")
-                else:tok(f"ldbv '{l[1][1:len(l[1])-1]}")
+                # tok(f"sta #{tk+3}")
+                # tok("lda #0")
+                # tok(f"sta {l[0]}")
+                if l[1] in var:tok(f"ldb {l[1]}")
+                else:
+                    # input(l[1][1:len(l[1])-1])
+                    tok(f"ldbv #{l[1][1:len(l[1])-1]}")
                 tok(f"sta #{tk+3}")
                 tok(f"stb #0")
         if lt=="int":
@@ -207,7 +226,7 @@ def lines(l,ifover=False):
             tok(f"sta {l[0]}")
     elif "("in l[0]:
         l=args(l[0])
-        print(l)
+        # print(l)
         if l is None:return ""
         if l[0][0]in ["disp"]:
             tok("disp")
@@ -225,16 +244,35 @@ def lines(l,ifover=False):
             l=l[0]
             if l[1]in var:tok(f"lda {l[1]}")
             else:tok(f"ldav #{l[1]}")
-            tok("shla")
+            ln=l[2]
+            if ln in var:ln=var[ln][0]
+            for i in range(int(ln)):
+                tok("shla")
             tok(f"sta #{tk+3}")
         elif l[0][0]=="SHR":
             # print("anded")
             l=l[0]
             if l[1]in var:tok(f"lda {l[1]}")
             else:tok(f"ldav #{l[1]}")
-            tok("shra")
+            ln=l[2]
+            if ln in var:ln=var[ln][0]
+            for i in range(int(ln)):
+                tok("shra")
             tok(f"sta #{tk+3}")
-        
+        elif l[0][0]=="WRT":
+            l=l[0]
+            tok(f"lda {l[1]}")
+            tok(f"lva")
+            tok(f"lda {l[2]}")
+            tok(f"lxa")
+            tok(f"lda {l[3]}")
+            tok("lya")
+            tok("wri")
+        elif l[0][0]=="char":
+            l=l[0]
+            b=ltr.index(l[1])
+            tok(f"ldav #{b}")
+            tok(f"sta #{tk+3}")
         elif l[0][0]=="pxl":
             l=l[0]
             if l[1]in var:tok(f"lda {l[1]}")
@@ -247,11 +285,15 @@ def lines(l,ifover=False):
             tok("pxi")
         elif l[0][0]=="setFile":
             l=l[0]
-            if l[1] in var:tok(f"stid {l[1]}")
+            # input(f"{l[1]} , {l[1]in var}")
+            if l[1] in var:
+                tok(f"lda {l[1]}")
+                tok(f"sta #{tk+3}")
+                tok(f"stid #0")
             else:tok(f"stid #{l[1]}")
         elif l[0][0]=="debug":
             l=l[0]
-            if len(l)>1:tok(f"ldav {l[1]}")
+            if len(l)>1:tok(f"lda {l[1]}")
             tok("dbg")
         elif l[0][0]=="getData":
             l=l[0]
@@ -262,6 +304,10 @@ def lines(l,ifover=False):
                 tok(f"ldca #0")
             else:tok(f"ldca #{l[1]}")#i gotta do var thing here erg
             tok(f"sta #{tk+3}")
+        elif l[0][0]=="len":
+            l=l[0]
+            tok(f"lda {l[1]}")
+            tok(f"sta #{tk+3}")
         else:
             l=l[0]
             for x,i in enumerate(l[1:]):
@@ -270,6 +316,7 @@ def lines(l,ifover=False):
                     lines([i])
                     tok("ldav #0")
                 elif i in var:tok(f"lda {i}")
+                elif i[0]=="\"":tok(f"ldav \"{i[1]}")
                 else:tok(f"ldav #{i}")
                 tok(f"sta {fnc[l[0]][x]}")
             tok(f"call {l[0]}")
@@ -290,7 +337,7 @@ def lines(l,ifover=False):
         tok("ret")
     elif l[0]=="if":
         l=fish(l[1])
-        print(l,l is None)
+        # print(l,l is None)
         if l is None:return ""
         tok(f"lda {l[0]}")
         if l[2]in var:tok(f"ldb {l[2]}")
@@ -314,7 +361,7 @@ def lines(l,ifover=False):
         tok(f"jmp {l[1]}")
     elif l[0]=="for":
         #for i 0 <3 +=1
-        print(l)
+        # print(l)
         lines(["var",f"{l[1]}={l[2]}"])
         lines([f"{l[1]}={l[2]}"])
         lp.append([tk,f"{l[1]}{l[4]}"])
@@ -391,7 +438,7 @@ for i in var:
         # tok("'_")
         for j in range(10):
             if j<len(b):
-                tok(f"'{b[j]} ;val of ltr")
+                tok(f"#{ltr.index(b[j])} ;val of ltr")
             else:
                 tok("#0 ; val of ltr extnd")
     elif v=="bool":

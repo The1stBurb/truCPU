@@ -26,7 +26,11 @@ class DRIVE:
         # self.d5=[SECTOR() for i in range(diskSize)]
         # self.fl=os.listdir()
     def st(self,bus):
-        self.cur().st(bus)
+        if self.s and num(bus)<len(self.mem):
+            # input(bus)
+            self.loc=bus
+        self.s=False
+        # self.cur().st(bus)
     def ena(self,bus,addr=0):
         se=self.e
         self.e=False

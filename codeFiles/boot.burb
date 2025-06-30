@@ -1,35 +1,142 @@
+# print("c",0,0)
 displayMode=manual
-# var scrn_sz=1
-fill(5,8,5)
-# COLOUR=2000
-pxl(50,50)
-renderImg(1,0)
-def renderImg(renderImg_scale,renderImg_file)
-    # setFile(renderImg_file)
-    pxl(renderImg_file,0)
+setFile(0)
+var font_w=0
+var font_h=0
+var font_bits=0
+font_w=getData(0)
+font_h=getData(1)
+font_bits=getData(2)
+
+# fill(9,1,1)
+# print("C",2,10)
+# print("r",8,10)
+# print("i",13,10)
+# print("m",18,10)
+# print("s",23,10)
+# print("o",28,10)
+# print("n",33,10)
+# disp()
+# fill(4,7,6)
+# print("T",38,10)
+# print("r",43,10)
+# print("e",48,10)
+# print("e",53,10)
+# disp()
+# fill(3,4,14)
+# print("O",58,10)
+# print("S",63,10)
+# disp()
+renderImg(0,10,2,1)
+# fill(0,0,0)
+# print("L",1,60)
+# print("o",6,60)
+# print("a",11,60)
+# print("d",16,60)
+# print("i",21,60)
+# print("n",26,60)
+# print("g",31,60)
+# print(".",36,60)
+# print(".",41,60)
+# print(".",46,60)
+# disp()
+def print(print_text,print_x,print_y)
+    # pxl(print_text,0)
+    var print_tx=print_x
+    var print_ty=print_y
+    var print_data=print_text
+    # debug(print_data)
+    print_data=mult(print_data,font_bits)
+    # debug(print_data)
+    print_data=add(print_data,3)
+    # print_data=add(print_data,3)
+    # debug(print_data)
+    var print_bit=0
+    for print_i 0 <font_bits +=1
+        print_data=add(print_data,print_i)
+        # debug(print_data)
+        print_bit=getData(print_data)
+        # debug(print_bit)
+        var print_temp=print_bit
+        print_temp=SHL(print_temp,0)
+        print_temp=SHR(print_temp,12)
+        # print_temp=SHL(print_temp,12)
+        printOne(print_temp,print_x,print_y)
+        print_y+=1
+        print_temp=print_bit
+        print_temp=SHL(print_temp,4)
+        print_temp=SHR(print_temp,12)
+        # print_temp=SHL(print_temp,8)
+        printOne(print_temp,print_x,print_y)
+        print_y+=1
+        print_temp=print_bit
+        print_temp=SHL(print_temp,8)
+        print_temp=SHR(print_temp,12)
+        # print_temp=SHL(print_temp,4)
+        printOne(print_temp,print_x,print_y)
+        print_y+=1
+        print_temp=print_bit
+        print_temp=SHL(print_temp,12)
+        print_temp=SHR(print_temp,12)
+        # print_temp=SHL(print_temp,0)
+        printOne(print_temp,print_x,print_y)
+        # print_x+=1
+        print_y+=1
+    frd
+    # disp()
+fcd
+def printOne(printOne_val,printOne_x,printOne_y)
+    # debug(printOne_val)
+    if printOne_val>7
+        pxl(printOne_x,printOne_y)
+        printOne_val-=8
+    ifd
+    printOne_x+=1
+    if printOne_val>3
+        pxl(printOne_x,printOne_y)
+        printOne_val-=4
+    ifd
+    printOne_x+=1
+    if printOne_val>1
+        pxl(printOne_x,printOne_y)
+        printOne_val-=2
+    ifd
+    printOne_x+=1
+    if printOne_val>0
+        pxl(printOne_x,printOne_y)
+    ifd
+    printOne_x+=1
+
+fcd
+def renderImg(renderImg_x,renderImg_y,renderImg_scale,renderImg_file)
+    # debug(renderImg_file)
+    setFile(renderImg_file)
+    # pxl(renderImg_file,0)
     var renderImg_w=0
     renderImg_w=getData(0)
-    pxl(renderImg_w,1)
+    # pxl(renderImg_w,1)
     var renderImg_h=0
     renderImg_h=getData(1)
-    pxl(renderImg_h,2)
+    # pxl(renderImg_h,2)
     var renderImg_ind=2
     var renderImg_dat=0
-    var renderImg_x=0
-    var renderImg_y=0
-    disp()
+    var renderImg_tmx=0
+    renderImg_tmx=renderImg_x
+    # disp()
     for renderImg_iy 0 <renderImg_h +=1
         for renderImg_ix 0 <renderImg_w +=1
             COLOUR=getData(renderImg_ind)
             renderImg_ind+=1
-            pxl(renderImg_ind,50)
+            # pxl(renderImg_ind,50)
             # debug(COLOUR)
             #add(renderImg_ind,1)
-            # renderImg_x=mult(renderImg_ix,renderImg_scale)
-            # renderImg_y=mult(renderImg_iy,renderImg_scale)
-            pxl(renderImg_ix,renderImg_iy)
+            pxl(renderImg_x,renderImg_y)
+            renderImg_x=add(renderImg_x,renderImg_scale)
+            # disp()
         frd
-        disp()
+        # disp()
+        renderImg_x=renderImg_tmx
+        renderImg_y=add(renderImg_y,renderImg_scale)
     frd
     disp()
 fcd
@@ -37,6 +144,8 @@ def mult(mult_a,mult_b)
     var mult_x=0
     var mult_a1=0
     var mult_b1=0
+    mult_a1=mult_a
+    mult_b1=mult_b
     if mult_a>mult_b
         mult_a1=mult_a
         mult_b1=mult_b
@@ -45,6 +154,10 @@ def mult(mult_a,mult_b)
         mult_a1=mult_b
         mult_b1=mult_a
     ifd
+    # if mult_b==mult_a
+    #     mult_a1=mult_a
+    #     mult_b1=mult_b
+    # ifd
     for mult_i 0 <mult_b1 +=1
         # shl(mult_x)
         mult_x+=mult_a1
@@ -55,19 +168,19 @@ def add(add_a,add_b)
     add_a+=add_b
     return add_a
 fcd
-# def div(div_a,div_b)
-#     var div_t=0
-#     while div_a>div_b
-#         div_a-=div_b
-#         div_t+=1
-#     whd
-#     # pxl(div_t,3)
-#     return div_t
-# fcd
-# def sub(sub_a,sub_b)
-#     sub_a-=sub_b
-#     return sub_a
-# fcd
+def div(div_a,div_b)
+    var div_t=0
+    while div_a>div_b
+        div_a-=div_b
+        div_t+=1
+    whd
+    # pxl(div_t,3)
+    return div_t
+fcd
+def sub(sub_a,sub_b)
+    sub_a-=sub_b
+    return sub_a
+fcd
 def fill(fill_red,fill_green,fill_blue) 
     var fill_temp=0
     # fill_red=div(fill_red,17)

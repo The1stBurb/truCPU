@@ -38,4 +38,4 @@ def hex_bin(hex_str):
     if len(hex_str) != 4 or any(c not in '0123456789abcdefABCDEF' for c in hex_str):
         raise ValueError("Input must be a 4-character hexadecimal string.")
     return bin(int(hex_str, 16))[2:].zfill(16)
-# print(bin_hex(hex_bin("0010")))
+print(num(hex_bin("0038"))/17,num(hex_bin("0044"))/17,num(hex_bin("00E8"))/17)

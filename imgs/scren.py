@@ -6,6 +6,9 @@ img=pygame.image.load("imgs/CrimsonTreeOS.jpg")
 running = True
 rgb=[]
 bitSize=16
+def rect(x,y,w,h,col):
+    pygame.draw.rect(screen, col, pygame.Rect(x, y, w, h))
+sz=16
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -22,10 +25,17 @@ while running:
             for j in range(0,513,16):
                 # print(j,i)
                 if i<512 and j<512:
-                    rgb[-1].append(img.get_at((j,i)))
+                    av=img.get_at((j,i))
+                    for k in range(1,15):
+                        for l in range(1,15):
+                            avg=img.get_at((j+l,i+k))
+                            av=((av[0]+avg[0])/2,(av[1]+avg[1])/2,(av[2]+avg[2])/2)
+                    rgb[-1].append(av)
     for i in range(0,513,16):
         pygame.draw.line(screen, (0,0,0), (i,0), (i,600), 2)
-
+    for y,i in enumerate(rgb):
+        for x,j in enumerate(i):
+            rect(x*sz,y*sz,sz,sz,j)
 
     # Update the display
     pygame.display.flip()

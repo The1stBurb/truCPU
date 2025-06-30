@@ -1,8 +1,8 @@
-from allVars import stkSize
+from allVars import stkSize,HYPER
 from allFuncs import byts,bitSize
 class REG:
-    def __init__(self,always_set=False):
-        self.val=str("0"*bitSize)
+    def __init__(self,always_set=False,val="0"*bitSize):
+        self.val=val
         self.als=int(always_set)
         self.s=self.als
         self.e=0
@@ -72,12 +72,16 @@ class CLK:
         self.s=0
     def tick(self):
         self.count+=1
-        if self.count==4:
-            self.c=0
-            self.count=0
-        elif self.count==3:self.d=1
-        elif self.count==2:self.c=1
-        elif self.count==1:self.d=0
-        self.s,self.e=self.c and self.d,self.c or self.d
+        if HYPER:
+            self.s=1
+            self.e=1
+        else:
+            if self.count==4:
+                self.c=0
+                self.count=0
+            elif self.count==3:self.d=1
+            elif self.count==2:self.c=1
+            elif self.count==1:self.d=0
+            self.s,self.e=self.c and self.d,self.c or self.d
     def __str__(self):
         return f"c:{self.c}|d:{self.d}|s:{self.s}|e:{self.e}"

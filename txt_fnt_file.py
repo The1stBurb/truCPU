@@ -6,6 +6,7 @@ the_font="4x6"
 with open(f"FONTS/{the_font}.txt","r")as f:
     fnt=f.read().split(">>")
 wd,hg=int(fnt[0][0]),int(fnt[0][2])
+# bitSz=ceil(wd+hg)
 def late(v):
     return "1"if v=="#"else "0"
 def parseData(val,dat,bl=bitSize):
@@ -33,17 +34,18 @@ def parseData(val,dat,bl=bitSize):
 fnts={}
 for i in range(1,len(fnt),2):
     fnts=fnts|parseData(fnt[i],fnt[i+1][1:])
+# print(fnts["a"],fnts["c"])
 lt="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ12345667890.,:;'\"!? +-*= %$#~()<>{}[]|/\\"
 bad=[]
 for i in lt:
     if not (i in fnts):bad.append(i)
 if len(bad)>0:
-    print(f"ERROR: font \"the_font\" didn't parse the characters: {",".join([i for i in bad])}!")
+    print(f"ERROR: font \"{the_font}\" didn't parse the characters: {",".join([i for i in bad])}!")
     quit()
 with open(f"codeFiles/{the_font}.fnt","w")as f:
-    st=bin_hex(byt(ceil((wd+hg)/bitSize)))
+    st=bin_hex(byt(wd))+bin_hex(byt(hg))+bin_hex(byt(ceil((wd*hg)/bitSize)))
     for i in fnts:
-        st+=bin_hex(byt(ltrs[i]))
+        # st+=bin_hex(byt(ltrs[i]))
         for j in fnts[i]:
             # print(j)
             st+=bin_hex(j)

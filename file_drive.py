@@ -1,6 +1,6 @@
 from DRIVE import DRIVE
 import os
-files=["CrimsonTreeOS.img"]
+files=["4x6.fnt","CrimsonTreeOS.img"]
 drv=DRIVE()
 for i in range(len(files)):
     if files[i]=="":continue

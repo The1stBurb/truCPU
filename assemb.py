@@ -97,6 +97,7 @@ stats = {}
 lvl2 = []
 mac = []
 # print(lines)
+ltr="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890.,:;'\"!? +-*=%$#~()<>{}[]|/\\"
 for line in lines:
     line = line.strip()
     if not line or line.startswith(";"):
@@ -140,6 +141,8 @@ for line in lines:
         elif arg.startswith("'"):
             b=byt(ltrs[arg[1:]])
             mac.append(b)
+        elif arg.startswith("\""):
+            mac.append(byt(ltr.index(arg[1:])))
         elif arg.startswith("#"):
             # if arg[1:]in ltrs:
             #     mac.append(byt(ltrs[arg[1:]]))
@@ -160,4 +163,5 @@ for idx, code in enumerate(mac):
         mac[idx] = byt(stats[code])
 # if [300] in mac:print("ldca")
 # print(mac,len(mac))
+# quit()
 # input()

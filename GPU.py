@@ -1,7 +1,7 @@
 from time import sleep
 from register import REG
 from assemb import ltrs,byt
-from allVars import scrnHght,scrnWdth,displayMode,pixelSize,rect,screen,pygame
+from allVars import scrnHght,scrnWdth,displayMode,pixelSize,rect,screen,pygame,line,wid,hei
 from allFuncs import num
 
 # import pygame
@@ -23,7 +23,7 @@ class GPU:
         self.my="00000000"
         self.sx,self.sy,self.s0,self.s1,self.sv,self.wv="001","010","011","100","101","110"
         self.disp="123"
-        self.mem=[REG() for i in range(scrnHght*scrnWdth)]
+        self.mem=[REG(val="0000111111111111") for i in range(scrnHght*scrnWdth)]
         self.curad=0
     def tick(self,clk,s,bus,op,flgs):
         if op==self.sx:
@@ -95,11 +95,14 @@ class GPU:
                 col=(int(num(m[4:8])*rng),int(num(m[8:12])*rng),int(num(m[12:16])*rng))
                 # if "1" in m:print(r,g,b)
                 # s+=(f"\033[{col}m ")
-                rect(j*pixelSize,i*pixelSize,pixelSize,pixelSize,col)
-                # s+=f"\033[48;2;{r};{g};{b}m "
-            rect((j+1)*pixelSize,i*pixelSize,pixelSize,pixelSize,(0,0,0))
+                rect((j+1)*pixelSize,(i+1)*pixelSize,pixelSize,pixelSize,col)
         for j in range(scrnWdth):
-            rect(j*pixelSize,(i+1)*pixelSize,pixelSize,pixelSize,(0,0,0))
-            # print("|"+s+"\033[0m|")
+            rect(j*pixelSize,0,pixelSize,pixelSize,(0,0,0))
+            rect(j*pixelSize,(scrnHght)*pixelSize,pixelSize,pixelSize,(0,0,0))
+        #     line((j+1)*pixelSize,pixelSize,(j+1)*pixelSize,(scrnHght+1)*pixelSize,(0,0,0))
+        for j in range(scrnHght):
+            rect(0,j*pixelSize,pixelSize,pixelSize,(0,0,0))
+            rect((scrnWdth)*pixelSize,j*pixelSize,pixelSize,pixelSize,(0,0,0))
+        #     line(pixelSize,(j+1)*pixelSize,(scrnWdth+1)*pixelSize,(j+1)*pixelSize,(0,0,0))
         pygame.display.flip()
         # print(self.ad,num(self.my)*scrnWdth+num(self.mx))
