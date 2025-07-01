@@ -6,7 +6,7 @@ ops={
     "lda":2,"ldb":3,"ldav":4,"ldbv":5,"sta":6,"stb":7,"lxa":8,"lxb":9,"lya":10,"lyb":11,"lva":12,"lvb":13,"lxv":14,"lyv":15,"lvv":16,
     "nota":18,"notb":19,"shla":20,"shlb":21,"shra":22,"shrb":23,"inca":24,"incb":25,"deca":26,"decb":27,"add":28,"sub":29,"or":30,"xor":31,"psha":32,"pshb":33,"popa":34,"popb":35,"lpxa":36,"lpxb":37,"spxa":38,"spxb":39,"incsp":40,"decsp":41,"call":42,"ret":43,"cmp":44,"and":45,
     "jmp":48,"jmc":50,"jnc":51,"jma":52,"jna":53,"jme":54,"jne":55,"jmz":56,"jnz":57,
-    "pxi":64,"pxo":65,"wri":66,"wro":67,"disp":68,
+    "pxi":64,"pxo":65,"wri":66,"wro":67,"disp":68,"sclr":69,"pxg":70,
     "ldva":96,"ldvb":97,"sdva":98,"sdvb":99,"sdv":100,"ldck":101,"sdck":102,
     "int1":128,"int2":129,"int3":130,"int4":131,"int5":132,"int6":133,"int7":134,"int8":135,
     "hlt":255,

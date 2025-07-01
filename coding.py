@@ -12,7 +12,7 @@ almost equivilant of tearing it all down and rebuilding...
 """
 # def rect(rect_x,rect_y,rect_w,rect_h);for rect_yi rect_y <rect_h +=1;for rect_xi rect_x <rect_w +=1;pxl(rect_xi,rect_yi);frd;frd;disp();fcd 
 code=""
-with open("codeFiles/boot.burb")as main:
+with open("codeFiles/snek.burb")as main:
     code=main.read().replace("width",str(av.scrnWdth)).replace("height",str(av.scrnHght)).replace(";","\n")
 # code="""
 # var x=0
@@ -317,6 +317,25 @@ def lines(l,ifover=False):
         elif l[0][0]=="time":
             tok(f"ldav #{round((perf_counter_ns()/10**9)*10)}")#needs to be tenths of a second
             tok(f"sta #{tk+3}")
+        elif l[0][0]=="key":
+            tok(f"int1 #{tk+3}")
+        elif l[0][0]=="getPxl":
+            l=l[0]
+            if l[1] in var:
+                tok(f"lda {l[1]}")
+                tok(f"lxa")
+            else:tok(f"lxv {l[1]}")
+            if l[2] in var:
+                tok(f"lda {l[2]}")
+                tok(f"lya")
+            else:tok(f"lyv {l[2]}")
+            tok("pxg")
+            tok(f"sta #{tk+3}")
+        elif l[0][0]=="background":
+            l=l[0]
+            m=int(l[1])*256+int(l[2])*16+int(l[3])
+            tok(f"ldav #{m}")
+            tok("sclr")
         else:
             l=l[0]
             for x,i in enumerate(l[1:]):

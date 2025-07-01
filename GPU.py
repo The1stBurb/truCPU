@@ -21,7 +21,7 @@ class GPU:
     def __init__(self):
         self.mx="00000000"
         self.my="00000000"
-        self.sx,self.sy,self.s0,self.s1,self.sv,self.wv="001","010","011","100","101","110"
+        self.sx,self.sy,self.s0,self.s1,self.sv,self.wv,self.sclr="001","010","011","100","101","110","111"
         self.disp="123"
         self.mem=[REG(val="0000111111111111") for i in range(scrnHght*scrnWdth)]
         self.curad=0
@@ -71,7 +71,12 @@ class GPU:
                     self.mem[st+scrnWdth*i+2].s=1
                     self.mem[st+scrnWdth*i+2].st("0000"+(gt[i][2]*12))
                     str(self.mem[st+scrnWdth*i+2])
-        if (op in [self.sv,self.s1,self.s0,self.wv] and displayMode=="auto")or op==self.disp:
+        elif op==self.sclr:
+            for i in range(len(self.mem)):
+                self.mem[i].s=1
+                self.mem[i].st(bus)
+                str(self.mem[i])
+        if (op in [self.sv,self.s1,self.s0,self.wv] and displayMode=="auto")or op==self.disp or op==self.sclr:
             # print("\033c",end="")
             self.display(flgs)
             # sleep(0.05)

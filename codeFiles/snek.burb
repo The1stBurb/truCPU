@@ -1,0 +1,125 @@
+var hed_x=1
+var hed_y=1
+# hed_y-=1
+var hed_d=0
+var tl_x=1
+var tl_y=1
+var tl_d=1
+var ky=0
+
+var add_tail=1
+# fill(0,15,0)
+background(15,15,15)
+flag mainLoop
+ky=key()
+# debug(ky)
+if ky==40
+    # tl_d=hed_d
+    hed_d=0
+ifd
+if ky==41
+    # tl_d=hed_d
+    hed_d=1
+ifd
+if ky==51
+    # tl_d=hed_d
+    hed_d=2
+ifd
+if ky==50
+    # tl_d=hed_d
+    hed_d=3
+ifd
+tl_d=getPxl(tl_x,tl_y)
+# debug(tl_d,0)
+# fill(0,15,15)
+# pxl(tl_x,tl_y)
+if hed_d==0
+    fill(0,0,0)
+    hed_y-=1
+    # debug(hed_y,0)
+ifd
+if hed_d==1
+    fill(0,0,1)
+    hed_x+=1
+ifd
+if hed_d==2
+    fill(0,0,2)
+    hed_y+=1
+ifd
+if hed_d==3
+    fill(0,0,3)
+    hed_x-=1
+ifd
+pxl(hed_x,hed_y)
+disp()
+if add_tail==0
+    if tl_d==0
+        tl_y-=1
+    ifd
+    if tl_d==1
+        tl_x+=1
+    ifd
+    if tl_d==2
+        tl_y+=1
+    ifd
+    if tl_d==3
+        tl_x-=1
+    ifd
+ifd
+# debug(x)
+# pxl(x,10)
+disp()
+goto mainLoop
+def mult(mult_a,mult_b)
+    var mult_x=0
+    var mult_a1=0
+    var mult_b1=0
+    mult_a1=mult_a
+    mult_b1=mult_b
+    if mult_a>mult_b
+        mult_a1=mult_a
+        mult_b1=mult_b
+    ifd
+    if mult_b>mult_a
+        mult_a1=mult_b
+        mult_b1=mult_a
+    ifd
+    # if mult_b==mult_a
+    #     mult_a1=mult_a
+    #     mult_b1=mult_b
+    # ifd
+    for mult_i 0 <mult_b1 +=1
+        # shl(mult_x)
+        mult_x+=mult_a1
+    frd
+    return mult_x
+fcd
+def add(add_a,add_b)
+    add_a+=add_b
+    return add_a
+fcd
+def div(div_a,div_b)
+    var div_t=0
+    while div_a>div_b
+        div_a-=div_b
+        div_t+=1
+    whd
+    # pxl(div_t,3)
+    return div_t
+fcd
+def sub(sub_a,sub_b)
+    sub_a-=sub_b
+    return sub_a
+fcd
+def fill(fill_red,fill_green,fill_blue) 
+    var fill_temp=0
+    # fill_red=div(fill_red,17)
+    # fill_green=div(fill_green,17)
+    # fill_blue=div(fill_green,17)
+    COLOUR=fill_blue
+    fill_temp=mult(fill_green,16)
+    COLOUR=add(COLOUR,fill_temp)
+    fill_temp=mult(fill_red,256)
+    # fill_temp=mult(fill_temp,16)
+    COLOUR=add(COLOUR,fill_temp)
+fcd

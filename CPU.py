@@ -65,16 +65,16 @@ class CPU:
         self.lda,self.ldb,self.ldav,self.ldbv,self.sta,self.stb,self.lxa,self.lxb,self.lya,self.lyb,self.lva,self.lvb,self.lxv,self.lyv,self.lvv=2,3,4,5,6,7,8,9,10,11,12,13,14,15,16
         self.nota,self.notb,self.shla,self.shlb,self.shra,self.shrb,self.inca,self.incb,self.deca,self.decb,self.add,self.sub,self.ro,self.xor,self.psha,self.pshb,self.popa,self.popb,self.lpxa,self.lpxb,self.spxa,self.spxb,self.incsp,self.decsp,self.call,self.ret,self.cpm,self.nad=18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45
         self.jmp,self.jmc,self.jnc,self.jma,self.jna,self.jme,self.jne,self.jmz,self.jnz=48,50,51,52,53,54,55,56,57
-        self.pxi,self.pxo,self.wri,self.wro,self.dsip=64,65,66,67,68
+        self.pxi,self.pxo,self.wri,self.wro,self.dsip,self.sclr,self.pxg=64,65,66,67,68,69,70
         self.ldva,self.ldvb,self.sdva,self.sdvb,self.sdv,self.ldck,self.sdck=96,97,98,99,100,101,102
         self.int1,self.int2,self.int3,self.int4,self.int4,self.int5,self.int6,self.int7,self.int8=128,129,130,131,132,133,134,135,136
         self.hlt=255
         self.ldca,self.stid=300,301
         self.dbg=456
         self.addop,self.subop,self.andop,self.orop,self.xorop,self.shl,self.shr,self.inc,self.dec,self.cmpop,self.notop="000","001","010","011","100","0110","0111","1000","1001","11101","0101"
-        self.gpuop,self.gsx,self.gsy,self.gs0,self.gs1,self.gsv,self.gwv="000","001","010","011","100","101","110"
+        self.gpuop,self.gsx,self.gsy,self.gs0,self.gs1,self.gsv,self.gwv,self.gsclr="000","001","010","011","100","101","110","111"
         self.gdsp="123"
-    def fastTick(self,ram,stk,drv,gpu,start):
+    def fastTick(self,ram,stk,drv,gpu,start,kbrd):
         self.gpuop="000"
         # if self.ir.val=="0000000100101100":input("found it ahhhh")
         ad=num(self.marx.val)
@@ -150,6 +150,11 @@ class CPU:
         elif irv==self.dsip:self.gpuop=self.gdsp
         elif irv==self.dbg:input(f"\n<DEBUG1> {self.a.val} : {num(self.a.val)} time: {round((perf_counter_ns()-start)/10**8)/10} second")
         elif irv==self.dbg+1:print(f"\n<DEBUG2> {self.a.val} : {num(self.a.val)} time: {round((perf_counter_ns()-start)/10**8)/10} second")
+        elif irv==self.int1:ram.mem[num(ram.mem[ad].val)].val,self.iar.val=byt(kbrd.getKey()),byt(num(self.iar.val)+1)#,self.int.val
+        elif irv==self.sclr:self.gpuop,self.gpu.val=self.gsclr,self.a.val
+        elif irv==self.pxg:
+            self.a.val=gpu.mem[num(self.y.val)*scrnWdth+num(self.x.val)].val
+            # print(self.a.val)
         if self.marx.val!=self.iar.val:self.marx.val=self.iar.val
         # input("\n"+self.marx.val+" "+self.iar.val)
     def tick(self,clk,s,ram,stk,drv):
