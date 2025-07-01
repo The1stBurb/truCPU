@@ -2,6 +2,8 @@ import allVars as av
 from allVars import ltrs
 from allFuncs import byt,COLOUR
 from random import randint
+from time import perf_counter_ns
+from file_drive import files
 asm=[]
 """
 it no worky rn, undergoing massive renovations...
@@ -290,11 +292,15 @@ def lines(l,ifover=False):
                 tok(f"lda {l[1]}")
                 tok(f"sta #{tk+3}")
                 tok(f"stid #0")
+            elif l[1][0]=="\"":tok(f"stid #{files.index(l[1][1:len(l[1])-1])}")
             else:tok(f"stid #{l[1]}")
+        elif l[0][0]=="loadFile":
+            pass
         elif l[0][0]=="debug":
             l=l[0]
             if len(l)>1:tok(f"lda {l[1]}")
-            tok("dbg")
+            if len(l)>2 and l[2]=="0":tok("dbg1")
+            else:tok("dbg")
         elif l[0][0]=="getData":
             l=l[0]
             # print("i did it")
@@ -308,6 +314,9 @@ def lines(l,ifover=False):
             l=l[0]
             tok(f"lda {l[1]}")
             tok(f"sta #{tk+3}")
+        elif l[0][0]=="time":
+            tok(f"ldav #{round((perf_counter_ns()/10**9)*10)}")#needs to be tenths of a second
+            tok(f"sta #{tk+3}")
         else:
             l=l[0]
             for x,i in enumerate(l[1:]):
@@ -316,7 +325,7 @@ def lines(l,ifover=False):
                     lines([i])
                     tok("ldav #0")
                 elif i in var:tok(f"lda {i}")
-                elif i[0]=="\"":tok(f"ldav \"{i[1]}")
+                elif len(i)>1 and i[0]=="\"":tok(f"ldav \"{i[1]}")
                 else:tok(f"ldav #{i}")
                 tok(f"sta {fnc[l[0]][x]}")
             tok(f"call {l[0]}")

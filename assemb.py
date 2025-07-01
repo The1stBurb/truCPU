@@ -11,7 +11,7 @@ ops={
     "int1":128,"int2":129,"int3":130,"int4":131,"int5":132,"int6":133,"int7":134,"int8":135,
     "hlt":255,
     "ldca":300,"stid":301,
-    "dbg":456,
+    "dbg":456,"dbg1":457,
 }
 #repr(input("fish>"))
 # asembly="""

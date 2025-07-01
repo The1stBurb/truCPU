@@ -1,6 +1,6 @@
 # print("c",0,0)
 displayMode=manual
-setFile(0)
+setFile("4x6.fnt")
 var font_w=0
 var font_h=0
 var font_bits=0
@@ -8,26 +8,29 @@ font_w=getData(0)
 font_h=getData(1)
 font_bits=getData(2)
 
-# fill(9,1,1)
-# print("C",2,10)
-# print("r",8,10)
-# print("i",13,10)
-# print("m",18,10)
-# print("s",23,10)
-# print("o",28,10)
-# print("n",33,10)
-# disp()
-# fill(4,7,6)
-# print("T",38,10)
-# print("r",43,10)
-# print("e",48,10)
-# print("e",53,10)
-# disp()
-# fill(3,4,14)
-# print("O",58,10)
-# print("S",63,10)
-# disp()
-renderImg(0,10,2,1)
+fill(9,1,1)
+print("C",2,50)
+print("r",8,50)
+print("i",13,50)
+print("m",18,50)
+print("s",23,50)
+print("o",28,50)
+print("n",33,50)
+disp()
+fill(4,7,6)
+print("T",38,50)
+print("r",43,50)
+print("e",48,50)
+print("e",53,50)
+disp()
+fill(3,4,14)
+print("O",58,50)
+print("S",63,50)
+disp()
+renderImg(15,5,1,1)
+sleep(50)
+pxl(0,0)
+loadFile("snek.burb")
 # fill(0,0,0)
 # print("L",1,60)
 # print("o",6,60)
@@ -54,33 +57,26 @@ def print(print_text,print_x,print_y)
     var print_bit=0
     for print_i 0 <font_bits +=1
         print_data=add(print_data,print_i)
-        # debug(print_data)
         print_bit=getData(print_data)
-        # debug(print_bit)
         var print_temp=print_bit
         print_temp=SHL(print_temp,0)
         print_temp=SHR(print_temp,12)
-        # print_temp=SHL(print_temp,12)
         printOne(print_temp,print_x,print_y)
         print_y+=1
         print_temp=print_bit
         print_temp=SHL(print_temp,4)
         print_temp=SHR(print_temp,12)
-        # print_temp=SHL(print_temp,8)
         printOne(print_temp,print_x,print_y)
         print_y+=1
         print_temp=print_bit
         print_temp=SHL(print_temp,8)
         print_temp=SHR(print_temp,12)
-        # print_temp=SHL(print_temp,4)
         printOne(print_temp,print_x,print_y)
         print_y+=1
         print_temp=print_bit
         print_temp=SHL(print_temp,12)
         print_temp=SHR(print_temp,12)
-        # print_temp=SHL(print_temp,0)
         printOne(print_temp,print_x,print_y)
-        # print_x+=1
         print_y+=1
     frd
     # disp()
@@ -130,7 +126,8 @@ def renderImg(renderImg_x,renderImg_y,renderImg_scale,renderImg_file)
             # pxl(renderImg_ind,50)
             # debug(COLOUR)
             #add(renderImg_ind,1)
-            pxl(renderImg_x,renderImg_y)
+            pxl(renderImg_x,renderImg_y,2,2)
+            # rect(renderImg_x,renderImg_y,renderImg_scale,renderImg_scale)
             renderImg_x=add(renderImg_x,renderImg_scale)
             # disp()
         frd
@@ -193,17 +190,25 @@ def fill(fill_red,fill_green,fill_blue)
     # fill_temp=mult(fill_temp,16)
     COLOUR=add(COLOUR,fill_temp)
 fcd
-# def rect(rect_x,rect_y,rect_w,rect_h)
-#     var rect_x2=0
-#     # rect_x2=add(rect_x,rect_w)
-#     var rect_y2=0
-#     # rect_y2=add(rect_y,rect_h)
-#     for rect_iy 0 <=rect_h +=1
-#         for rect_ix 0 <=rect_h +=1
-#             rect_x2=add(rect_ix,rect_x)
-#             rect_y2=add(rect_iy,rect_y)
-#             pxl(rect_x2,rect_y2)
-#         frd
-#     frd
-#     disp()
-# fcd
+def rect(rect_x,rect_y,rect_w,rect_h)
+    var rect_x2=0
+    # rect_x2=add(rect_x,rect_w)
+    var rect_y2=0
+    # rect_y2=add(rect_y,rect_h)
+    for rect_iy 0 <=rect_h +=1
+        for rect_ix 0 <=rect_h +=1
+            rect_x2=add(rect_ix,rect_x)
+            rect_y2=add(rect_iy,rect_y)
+            pxl(rect_x2,rect_y2)
+        frd
+    frd
+    # disp()
+fcd
+def sleep(sleep_tenthSecond)
+    sleep_tenthSecond=mult(sleep_tenthSecond,3)
+    var sleep_temp=0
+    for i 0 <sleep_tenthSecond +=1
+        sleep_temp=mult(20,20)#10-approx 3.4, #1- apporx 0.35 but was for 10x input, now is proper lol
+        # debug(sleep_temp)
+    frd
+fcd

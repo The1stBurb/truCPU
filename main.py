@@ -25,7 +25,7 @@ while True:
     # try:
     clk.tick()
     stp.tick(clk)
-    cpuRet=cpu.fastTick(ram,stk,drv,gpu)#
+    cpuRet=cpu.fastTick(ram,stk,drv,gpu,start)#
     # cpuRet=cpu.tick(clk,stp,ram,stk,drv)
     if cpuRet=="HLT":
         break

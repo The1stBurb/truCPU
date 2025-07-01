@@ -1,6 +1,7 @@
 from register import REG
 from time import sleep
 from allVars import rect,font,screen,scrnWdth
+from time import perf_counter_ns
 from allFuncs import byts,num,byt,bitSize
 import pygame
 from ALU import ALU
@@ -73,7 +74,7 @@ class CPU:
         self.addop,self.subop,self.andop,self.orop,self.xorop,self.shl,self.shr,self.inc,self.dec,self.cmpop,self.notop="000","001","010","011","100","0110","0111","1000","1001","11101","0101"
         self.gpuop,self.gsx,self.gsy,self.gs0,self.gs1,self.gsv,self.gwv="000","001","010","011","100","101","110"
         self.gdsp="123"
-    def fastTick(self,ram,stk,drv,gpu):
+    def fastTick(self,ram,stk,drv,gpu,start):
         self.gpuop="000"
         # if self.ir.val=="0000000100101100":input("found it ahhhh")
         ad=num(self.marx.val)
@@ -146,6 +147,9 @@ class CPU:
             self.a.val,self.iar.val=drv.cur(num(ram.mem[ad].val)).val,byt(num(self.iar.val)+1)
             # input(f"\nldca: {self.a.val}")
         elif irv==self.stid:drv.loc,self.iar.val=ram.mem[ad].val,byt(num(self.iar.val)+1)
+        elif irv==self.dsip:self.gpuop=self.gdsp
+        elif irv==self.dbg:input(f"\n<DEBUG1> {self.a.val} : {num(self.a.val)} time: {round((perf_counter_ns()-start)/10**8)/10} second")
+        elif irv==self.dbg+1:print(f"\n<DEBUG2> {self.a.val} : {num(self.a.val)} time: {round((perf_counter_ns()-start)/10**8)/10} second")
         if self.marx.val!=self.iar.val:self.marx.val=self.iar.val
         # input("\n"+self.marx.val+" "+self.iar.val)
     def tick(self,clk,s,ram,stk,drv):
