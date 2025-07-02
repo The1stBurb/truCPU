@@ -1,7 +1,15 @@
+setFile("4x6.fnt")
+var font_w=0
+var font_h=0
+var font_bits=0
+font_w=getData(0)
+font_h=getData(1)
+font_bits=getData(2)
+
 var hed_x=1
-var hed_y=1
-# hed_y-=1
-var hed_d=0
+var hed_y=2
+hed_y-=1
+var hed_d=1
 var tl_x=1
 var tl_y=1
 var tl_d=1
@@ -66,10 +74,95 @@ if add_tail==0
         tl_x-=1
     ifd
 ifd
+if hed_x==0
+    goto ded
+ifd
+if hed_x==width
+    goto ded
+ifd
+if hed_y==0
+    goto ded
+ifd
+if hed_y==height
+    goto ded
+ifd
 # debug(x)
 # pxl(x,10)
 disp()
 goto mainLoop
+
+flag ded
+fill(15,0,0)
+print("Y",5,1)
+print("o",10,1)
+print("u",15,1)
+print("D",25,1)
+print("i",30,1)
+print("e",35,1)
+print("d",40,1)
+print("!",45,1)
+
+def print(print_text,print_x,print_y)
+    # pxl(print_text,0)
+    var print_tx=print_x
+    var print_ty=print_y
+    var print_data=print_text
+    # debug(print_data)
+    print_data=mult(print_data,font_bits)
+    # debug(print_data)
+    print_data=add(print_data,3)
+    # print_data=add(print_data,3)
+    # debug(print_data)
+    var print_bit=0
+    for print_i 0 <font_bits +=1
+        print_data=add(print_data,print_i)
+        print_bit=getData(print_data)
+        var print_temp=print_bit
+        print_temp=SHL(print_temp,0)
+        print_temp=SHR(print_temp,12)
+        printOne(print_temp,print_x,print_y)
+        print_y+=1
+        print_temp=print_bit
+        print_temp=SHL(print_temp,4)
+        print_temp=SHR(print_temp,12)
+        printOne(print_temp,print_x,print_y)
+        print_y+=1
+        print_temp=print_bit
+        print_temp=SHL(print_temp,8)
+        print_temp=SHR(print_temp,12)
+        printOne(print_temp,print_x,print_y)
+        print_y+=1
+        print_temp=print_bit
+        print_temp=SHL(print_temp,12)
+        print_temp=SHR(print_temp,12)
+        printOne(print_temp,print_x,print_y)
+        print_y+=1
+    frd
+    # disp()
+fcd
+def printOne(printOne_val,printOne_x,printOne_y)
+    # debug(printOne_val)
+    if printOne_val>7
+        pxl(printOne_x,printOne_y)
+        printOne_val-=8
+    ifd
+    printOne_x+=1
+    if printOne_val>3
+        pxl(printOne_x,printOne_y)
+        printOne_val-=4
+    ifd
+    printOne_x+=1
+    if printOne_val>1
+        pxl(printOne_x,printOne_y)
+        printOne_val-=2
+    ifd
+    printOne_x+=1
+    if printOne_val>0
+        pxl(printOne_x,printOne_y)
+    ifd
+    printOne_x+=1
+
+fcd
 def mult(mult_a,mult_b)
     var mult_x=0
     var mult_a1=0
