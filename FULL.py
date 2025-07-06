@@ -38,14 +38,15 @@ class KEYBOARD:
         self.kys=[self.kys[-1]]
         return self.kys.pop()
     def readKey(self,ky):
-        if ky=="up":ky=40
-        elif ky=="right":ky=41
-        elif ky=="down":ky=51
-        elif ky=="left":ky=50
+        if ky=="up":ky=100
+        elif ky=="right":ky=101
+        elif ky=="down":ky=102
+        elif ky=="left":ky=103
         elif ky=="shift":
             self.shft=True
             return
         elif ky=="space":ky=" "
+        elif ky=="enter":ky=105
         if self.shft:
             self.shft=False
             ky=ky.upper()

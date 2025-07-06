@@ -1,10 +1,13 @@
 from allFuncs import byt,bin_hex,bitSize
-from allVars import ltrs
+from allVars import ltrs,ltr,ltrx
 from math import ceil
 fnt=""
 the_font="4x6"
 with open(f"FONTS/{the_font}.txt","r")as f:
-    fnt=f.read().split(">>")
+    fnt=f.read()#.split(">>")
+for i in ltrx:
+    fnt=fnt.replace(i,ltrx[i])
+fnt=fnt.split(">>")
 wd,hg=int(fnt[0][0]),int(fnt[0][2])
 # bitSz=ceil(wd+hg)
 def late(v):
@@ -35,9 +38,8 @@ fnts={}
 for i in range(1,len(fnt),2):
     fnts=fnts|parseData(fnt[i],fnt[i+1][1:])
 # print(fnts["a"],fnts["c"])
-lt="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ12345667890.,:;'\"!? +-*= %$#~()<>{}[]|/\\"
 bad=[]
-for i in lt:
+for i in ltr:
     if not (i in fnts):bad.append(i)
 if len(bad)>0:
     print(f"ERROR: font \"{the_font}\" didn't parse the characters: {",".join([i for i in bad])}!")

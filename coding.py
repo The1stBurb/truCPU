@@ -1,5 +1,5 @@
 import allVars as av
-from allVars import ltrs,ltr
+from allVars import ltrs,ltr,ltrx
 from allFuncs import byt,COLOUR
 from random import randint
 from time import perf_counter_ns
@@ -14,6 +14,8 @@ almost equivilant of tearing it all down and rebuilding...
 code=""
 with open("codeFiles/boot.burb")as main:
     code=main.read().replace("width",str(av.scrnWdth)).replace("height",str(av.scrnHght)).replace(";","\n")
+for i in ltrx:
+    code=code.replace(i,ltrx[i])
 # code="""
 # var x=0
 # x=AND(3,1)

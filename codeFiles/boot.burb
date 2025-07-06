@@ -54,8 +54,11 @@ ky=key()
 if ky==pky
     goto inputText2
 ifd
+if ky==105
+    goto checks
+ifd
 if ky!=0
-    # usr.push(ky)
+    usr.push(ky)
     # debug(ky)
     print(ky,usrx,50)
     disp()
@@ -64,6 +67,26 @@ ifd
 pky=ky
 sleep(10)
 goto inputText
+flag checks
+var username="Fish"
+var checkLen=0
+var inpLen=0
+inpLen=len(usr)
+var userLen=0
+userLen=len(username)
+if userLen!=inpLen
+goto wrongUser
+ifd
+# for i 0 <checkLen
+goto rightUser
+flag wrongUser
+fill(15,0,0)
+print("U")
+goto END
+flag rightUser
+
+
+flag END
 # pxl(0,0)
 
 # loadFile("snek.burb")
@@ -219,10 +242,10 @@ def mult(mult_a,mult_b)
     var mult_b1=0
     mult_a1=mult_a
     mult_b1=mult_b
-    if mult_a>mult_b
-        mult_a1=mult_a
-        mult_b1=mult_b
-    ifd
+    # if mult_a>mult_b
+    #     mult_a1=mult_a
+    #     mult_b1=mult_b
+    # ifd
     if mult_b>mult_a
         mult_a1=mult_b
         mult_b1=mult_a
@@ -287,4 +310,10 @@ def sleep(sleep_tenthSecond)
         sleep_temp=mult(20,20)#10-approx 3.4, #1- apporx 0.35 but was for 10x input, now is proper lol
         # debug(sleep_temp)
     frd
+fcd
+def min(min_n1,min_n2)
+    if min_n2>min_n1
+        return min_n1
+    ifd
+    return min_n2
 fcd

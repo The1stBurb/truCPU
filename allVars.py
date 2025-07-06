@@ -1,4 +1,6 @@
 import pygame
+import warnings
+warnings.filterwarnings("ignore", category=SyntaxWarning)
 HYPER=True
 wid=800
 hei=600
@@ -12,7 +14,9 @@ sliceSize=2**4
 sectorSize=2**4
 diskSize=2**4
 driveSize=1
-ltr="✂abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890.,:;'\"!? +-*=%$#~()<>{}[]|/\\"
+ltrx={"\ksp[a":"ᵃ","\ksp[b":"ᵇ","\ksp[c":"ᶜ","\ksp[d":"ᵈ","\ksp[e":"ᵉ","\ksp[f":"ᶠ","\ksp[g":"ᵍ","\ksp[h":"ʰ","\ksp[i":"ⁱ","\ksp[j":"ʲ","\ksp[k":"ᵏ","\ksp[l":"ˡ","\ksp[m":"ᵐ","\ksp[n":"ⁿ","\ksp[o":"ᵒ","\ksp[p":"ᵖ","\ksp[q":"𐞥","\ksp[r":"ʳ","\ksp[s":"ˢ","\ksp[t":"ᵗ","\ksp[u":"ᵘ","\ksp[v":"ᵛ","\ksp[w":"ʷ","\ksp[x":"ˣ","\ksp[y":"ʸ","\ksp[z":"ᶻ","\ksp[1":"¹","\ksp[2":"²","\ksp[3":"³","\ksp[4":"⁴","\ksp[5":"⁵","\ksp[6":"⁶","\ksp[7":"⁷","\ksp[8":"⁸","\ksp[9":"⁹","\ksp[0":"⁰","\ksb[1":"₁","\ksb[2":"₂","\ksb[3":"₃","\ksb[4":"₄","\ksb[5":"₅","\ksb[6":"₆","\ksb[7":"₇","\ksb[8":"₈","\ksb[9":"₉","\ksb[0":"₀"}
+ltr="✂abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890.,:;'\"!? +-*=%$#~()<>{}[]|/\\ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖ𐞥ʳˢᵗᵘᵛʷˣʸᶻ¹²³⁴⁵⁶⁷⁸⁹⁰₁₂₃₄₅₆₇₈₉₀"
+# input(len(ltr))
 
 pygame.init()
 pygame.font.init()
