@@ -150,7 +150,10 @@ class CPU:
         elif irv==self.dsip:self.gpuop=self.gdsp
         elif irv==self.dbg:input(f"\n<DEBUG1> {self.a.val} : {num(self.a.val)} time: {round((perf_counter_ns()-start)/10**8)/10} second")
         elif irv==self.dbg+1:print(f"\n<DEBUG2> {self.a.val} : {num(self.a.val)} time: {round((perf_counter_ns()-start)/10**8)/10} second")
-        elif irv==self.int1:ram.mem[num(ram.mem[ad].val)].val,self.iar.val=byt(kbrd.getKey()),byt(num(self.iar.val)+1)#,self.int.val
+        elif irv==self.int1:
+            k=kbrd.getKey()
+            # if k!=0:input(k)
+            ram.mem[num(ram.mem[ad].val)].val,self.iar.val=byt(k),byt(num(self.iar.val)+1)#,self.int.val
         elif irv==self.sclr:self.gpuop,self.gpu.val=self.gsclr,self.a.val
         elif irv==self.pxg:
             self.a.val=gpu.mem[num(self.y.val)*scrnWdth+num(self.x.val)].val

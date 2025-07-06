@@ -1,5 +1,5 @@
 import allVars as av
-from allVars import ltrs
+from allVars import ltrs,ltr
 from allFuncs import byt,COLOUR
 from random import randint
 from time import perf_counter_ns
@@ -12,7 +12,7 @@ almost equivilant of tearing it all down and rebuilding...
 """
 # def rect(rect_x,rect_y,rect_w,rect_h);for rect_yi rect_y <rect_h +=1;for rect_xi rect_x <rect_w +=1;pxl(rect_xi,rect_yi);frd;frd;disp();fcd 
 code=""
-with open("codeFiles/snek.burb")as main:
+with open("codeFiles/boot.burb")as main:
     code=main.read().replace("width",str(av.scrnWdth)).replace("height",str(av.scrnHght)).replace(";","\n")
 # code="""
 # var x=0
@@ -40,7 +40,7 @@ with open("codeFiles/snek.burb")as main:
 # Time()-returns time in seconds
 # Millis()-returns time In milliseconds since program started
 # Sleep(len)
-var={"seed":[str(randint(0,255)),"int"],"COLOUR":["0","int"]}
+var={"seed":[str(randint(0,255)),"int"],"COLOUR":["0","int"],"BGCOLOUR":["4095","int"]}
 fnc={}
 flgs={}
 tk=0
@@ -81,7 +81,8 @@ def fish(l):
         except:pass
     # print("why no work")
 stop=False
-ltr="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890.,:;'\"!? +-*=%$#~()<>{}[]|/\\"
+
+lit={}
 def lines(l,ifover=False):
     # print(type(l),l)
     if l is None:return""
@@ -89,9 +90,23 @@ def lines(l,ifover=False):
     global asm,tk,var,fnc,flgs,lp,stop
     if l[0]=="var":
         l=l[1].split("=")
+        if "."in l[0] and l[0].split(".")[0] in lit and lit[l[0].split(".")[0]]!="":
+            l[0]=l[0].split(".")
+            l[0]=f"{lit[l[0][0]]}.{l[0][1]}"
+        if "/"in l[0]:
+            sl=[l[0].index("/"),l[0].rindex("/")]
+            l[0]=[l[0][:sl[0]],l[0][sl[0]+1:sl[1]],l[0][sl[1]+1:len(l[0])-1]]
+            # print(l[0])
+            l[0]=f"{l[0][0]}{var[l[0][1]][0]}{l[0][2]}"
+            # input(l[0])
         t=typ(l[1])
         if t=="str":
-            tok(f"ldav #{len(l[1])-2}")
+            # tok(f"ldav #{len(l[1])-2}")
+            for x,i in enumerate(l[1][1:len(l[1])-1]):
+                st=["var",f"{l[0]}[{x}]={ltr.index(i)}"]
+                input(st)
+                lines(st)
+            return
         else:
             if l[1]in var:
                 tok(f"lda {l[1]}")
@@ -157,24 +172,51 @@ def lines(l,ifover=False):
         tok(f"lda {l[0]}")
     elif "="in l[0]:
         l=l[0].split("=")
-        fm=""
-        lm=""
+        # if "."in l[0] and l[0].split(".")[0] in lit and lit[l[0].split(".")[0]]!="":
+        #     l[0]=l[0].split(".")
+        #     l[0]=f"{lit[l[0][0]]}.{l[0][1]}"
+        # if "."in l[1] and l[1].split(".")[0] in lit and lit[l[1].split(".")[0]]!="":
+        #     l[1]=l[1].split(".")
+        #     l[1]=f"{lit[l[1][0]]}.{l[1][1]}"
+        # fm=""
+        # lm=""
+        # if "/"in l[0]:
+        #     sl=[l[0].index("/"),l[0].index("/")]
+        #     l[0]=[l[0][:sl[0]],l[0][sl[0]+1:sl[1]],l[0][sl[1]+1:]]
+        #     input(l[0])
         # print(l)
-        if "["in l[0]:
-            b=l[0].index("[")
-            # print(l[0],b)
-            fm=l[0][b+1:len(l[0])-1]
-            l[0]=l[0][:b]
-        if "["in l[1]:
-            b=l[1].index("[")
-            lm=l[1][b+1:len(l[1])-1]
-            # print(lm,l[1],)
-            l[1]=l[1][:b]
+        # if "["in l[1]:
+        #     par=l[1].index("[")
+        #     zd=l[1][par+1:].split(",")
+        #     st=f"{l[0]}={l[1][:par]}.__get__({zd[0]},{zd[1][:-1]})"
+        #     input(st)
+        #     lines([st])
+        #     return""
+        # if "["in l[0]:
+        #     b=l[0].index("[")
+        #     # print(l[0],b)
+        #     fm=l[0][b+1:len(l[0])-1]
+        #     l[0]=l[0][:b]
+        # if "["in l[1]:
+        #     b=l[1].index("[")
+        #     lm=l[1][b+1:len(l[1])-1]
+        #     # print(lm,l[1],)
+        #     l[1]=l[1][:b]
         ft=var[l[0]][1]
         if l[1]in var:lt=var[l[1]][1]
         elif "("in l[1]:lt="func"
         else:lt=typ(l[1])
         # print(ft,lt)
+        if lt=="func":
+            lines([l[1]])
+            tok("ldav #0")
+            # tok(f"sta {l[0]}")
+        else:
+            if l[1]in var:tok(f"lda {l[1]}")
+            elif l[1][0]=="\"":tok(f"ldav #{ltr.index(l[1][1])}")
+            else:tok(f"ldav #{l[1]}")
+        tok(f"sta {l[0]}")
+        return
         if ft=="str":
             if lt=="str":
                 # print(l)
@@ -228,8 +270,22 @@ def lines(l,ifover=False):
             tok(f"sta {l[0]}")
     elif "("in l[0]:
         l=args(l[0])
+        l=[l[0],l[1]]
         # print(l)
         if l is None:return ""
+        for i in range(len(l[0])):
+            if "["in l[0][i]:
+                p=[l[0][i].index("["),l[0][i].index("]")]
+                if l[0][i][p[0]+1:p[1]]in var:
+                    l[0][i]=l[0][i][:p[0]+1]+var[l[0][i][p[0]+1:p[1]]][0]+l[0][i][p[1]:]
+                    # input(l[0][i])
+            # if "."in l[0][i] and l[0][i].split(".")[0] in lit and lit[l[0][i].split(".")[0]]!="":
+            #     l[0][i]=l[0][i].split(".")
+            #     l[0][i]=f"{lit[l[0][i][0]]}.{l[0][i][1]}"
+        if "."in l[0][0]:
+            par=l[0][0].index(".")
+            l[0]=[l[0][0][par+1:],l[0][0][:par]]+l[0][1:]
+            # input(l[0])
         if l[0][0]in ["disp"]:
             tok("disp")
         elif l[0][0]=="AND":
@@ -335,7 +391,24 @@ def lines(l,ifover=False):
             l=l[0]
             m=int(l[1])*256+int(l[2])*16+int(l[3])
             tok(f"ldav #{m}")
+            tok("sta BGCOLOUR")
             tok("sclr")
+        elif l[0][0]=="push":
+            l=l[0]
+            tok(f"lda {l[1]}")#get the length
+            tok("inca")
+            tok(f"ldbv {l[1]}")
+            tok("add")
+            # tok("ldbv #{ltr.index()}")
+            tok(f"ldb {l[2]}")
+            tok(f"sta #{tk+3}")
+            tok("stb #0")
+        # elif l[0][0]=="cursor":
+        #     l=l[0]
+        #     if l[1]=="location":
+        #         tok(f"setMouseX #{l[2]}")
+        #         tok(f"setMouseY #{l[3]}")
+        #     elif l[1]==""
         else:
             l=l[0]
             for x,i in enumerate(l[1:]):
@@ -344,9 +417,11 @@ def lines(l,ifover=False):
                     lines([i])
                     tok("ldav #0")
                 elif i in var:tok(f"lda {i}")
-                elif len(i)>1 and i[0]=="\"":tok(f"ldav \"{i[1]}")
+                elif len(i)>1 and i[0]=="\"":tok(f"ldav #{ltr.index(i[1])}")
                 else:tok(f"ldav #{i}")
-                tok(f"sta {fnc[l[0]][x]}")
+                f=fnc[l[0]][x]
+                if f in lit:lit[f]=i
+                tok(f"sta {f}")
             tok(f"call {l[0]}")
     elif l[0]=="def":
         if not stop:
@@ -355,6 +430,10 @@ def lines(l,ifover=False):
         l=args(l[1])[0]
         # print(l)
         for i in l[1:]:
+            if i[0]=="|":
+                i=i[1:len(i)-1]
+                lit[i]=""
+            # elif i in lit:i=
             var[i]=["0","int"]
         asm.append(f"{l[0]}:")
         # fnc[l[0]]=tk
@@ -367,6 +446,12 @@ def lines(l,ifover=False):
         l=fish(l[1])
         # print(l,l is None)
         if l is None:return ""
+        if "."in l[0] and l[0].split(".")[0] in lit and lit[l[0].split(".")[0]]!="":
+            l[0]=l[0].split(".")
+            l[0]=f"{lit[l[0][0]]}.{l[0][1]}"
+        if "."in l[1] and l[1].split(".")[0] in lit and lit[l[1].split(".")[0]]!="":
+            l[1]=l[1].split(".")
+            l[1]=f"{lit[l[1][0]]}.{l[1][1]}"
         tok(f"lda {l[0]}")
         if l[2]in var:tok(f"ldb {l[2]}")
         else:tok(f"ldbv #{l[2]}")
@@ -414,11 +499,22 @@ def lines(l,ifover=False):
         tok("popa")
         tok("ldbv #2")
         tok("add")
+        if "."in l[1] and l[1].split(".")[0] in lit:
+            l[1]=l[1].split(".")
+            l[1]=f"{lit[l[1][0]]}.{l[1][1]}"
+        if "/"in l[1]:
+            sl=[l[1].index("/"),l[1].rindex("/")]
+            l[1]=[l[1][:sl[0]],l[1][sl[0]+1:sl[1]],l[1][sl[1]+1:len(l[1])-1]]
+            print(l[1])
+            l[1]=f"{l[1][0]}{var[l[1][1]][0]}{l[1][2]}"
+            input(l[1])
         if l[1]in var:tok(f"ldb {l[1]}")
         else:tok(f"ldbv #{l[1]}")
         tok(f"sta #{tk+3}")
         tok("stb #0")
         tok("ret")
+        # for i in lit:
+        #     lit[i]=""
 c=code.split("\n")
 for x in range(len(c)):
     if "#"in c[x]:
@@ -444,6 +540,7 @@ tok("hlt")
 # tok("hlt")
 st=[]
 lst=[]
+print(var)
 for i in var:
     v=var[i][1]
     p=tk

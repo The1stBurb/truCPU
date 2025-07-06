@@ -11,7 +11,7 @@ while True:
         if i.type==pygame.QUIT:
             quit()
         elif i.type==pygame.KEYDOWN:
-            kbrd.readKey(i.key)
+            kbrd.readKey(pygame.key.name(i.key))
             # print("\n",i.key)
     cmrOut=cmr.run(start,kbrd)
     # input()

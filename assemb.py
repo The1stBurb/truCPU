@@ -1,6 +1,6 @@
 from coding import asembly
 from allFuncs import byt,COLOUR
-from allVars import ltrs
+from allVars import ltrs,ltr
 ops={
     "nop":0,
     "lda":2,"ldb":3,"ldav":4,"ldbv":5,"sta":6,"stb":7,"lxa":8,"lxb":9,"lya":10,"lyb":11,"lva":12,"lvb":13,"lxv":14,"lyv":15,"lvv":16,
@@ -97,7 +97,6 @@ stats = {}
 lvl2 = []
 mac = []
 # print(lines)
-ltr="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890.,:;'\"!? +-*=%$#~()<>{}[]|/\\"
 for line in lines:
     line = line.strip()
     if not line or line.startswith(";"):

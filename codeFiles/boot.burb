@@ -8,29 +8,65 @@ font_w=getData(0)
 font_h=getData(1)
 font_bits=getData(2)
 
-fill(9,1,1)
-print("C",2,50)
-print("r",8,50)
-print("i",13,50)
-print("m",18,50)
-print("s",23,50)
-print("o",28,50)
-print("n",33,50)
+# fill(9,1,1)
+# print("C",2,40)
+# print("r",8,40)
+# print("i",13,40)
+# print("m",18,40)
+# print("s",23,40)
+# print("o",28,40)
+# print("n",33,40)
+# disp()
+# fill(4,7,6)
+# print("T",38,40)
+# print("r",43,40)
+# print("e",48,40)
+# print("e",53,40)
+# disp()
+# fill(3,4,14)
+# print("O",58,40)
+# print("S",63,40)
+# disp()
+# renderImg(15,5,1,1)
+# sleep(50)
+fill(0,0,0)
+print("U",0,50)
+print("s",5,50)
+print("e",10,50)
+print("r",15,50)
+print("n",20,50)
+print("a",25,50)
+print("m",30,50)
+print("e",35,50)
+print(":",40,50)
 disp()
-fill(4,7,6)
-print("T",38,50)
-print("r",43,50)
-print("e",48,50)
-print("e",53,50)
-disp()
-fill(3,4,14)
-print("O",58,50)
-print("S",63,50)
-disp()
-renderImg(15,5,1,1)
-sleep(50)
-pxl(0,0)
-loadFile("snek.burb")
+var usri=0
+var usrx=0
+var usr=""
+var ky=0
+var pky=0
+flag inputText
+usrx=mult(usri,5)
+usrx=add(50,usrx)
+# print(usrx,50)
+flag inputText2
+ky=key()
+if ky==pky
+    goto inputText2
+ifd
+if ky!=0
+    # usr.push(ky)
+    # debug(ky)
+    print(ky,usrx,50)
+    disp()
+    usri+=1
+ifd
+pky=ky
+sleep(10)
+goto inputText
+# pxl(0,0)
+
+# loadFile("snek.burb")
 # fill(0,0,0)
 # print("L",1,60)
 # print("o",6,60)
@@ -43,12 +79,40 @@ loadFile("snek.burb")
 # print(".",41,60)
 # print(".",46,60)
 # disp()
+# str(x,"a")
+# str.__push__(x,"b")
+# var y=0
+# y=str[x,0]
+# debug(y)
+# y=str[x,1]
+# debug(y)
+# def str(|variable|,value)
+#     var variable.len=0
+#     str.__push__(variable,value)
+# fcd
+# def str.__push__(|variable|,value)
+#     var addVal_len=0
+#     addVal_len=variable.len
+#     var variable.v/addVal_len/=value
+# fcd
+# def str.__get__(|variable|,index)
+#     return variable.v/index/
+# fcd
+# def print(printx,printy)
+#     var printLen=0
+#     printLen=len(text)
+#     for i 0 <text +=1
+#         printLtr(text[i])
+#     frd
+# fcd
 def print(print_text,print_x,print_y)
     # pxl(print_text,0)
     var print_tx=print_x
     var print_ty=print_y
     var print_data=print_text
     # debug(print_data)
+    print_data=sub(print_data,1)
+    # debug(print_data,0)
     print_data=mult(print_data,font_bits)
     # debug(print_data)
     print_data=add(print_data,3)
@@ -83,26 +147,38 @@ def print(print_text,print_x,print_y)
 fcd
 def printOne(printOne_val,printOne_x,printOne_y)
     # debug(printOne_val)
+    var printOne_col=COLOUR
+    # debug(COLOUR,0)
+    # debug(printOne_col)
+    COLOUR=BGCOLOUR
     if printOne_val>7
-        pxl(printOne_x,printOne_y)
+        COLOUR=printOne_col
         printOne_val-=8
     ifd
+    pxl(printOne_x,printOne_y)
     printOne_x+=1
+    COLOUR=BGCOLOUR
     if printOne_val>3
-        pxl(printOne_x,printOne_y)
+        COLOUR=printOne_col
         printOne_val-=4
     ifd
+    pxl(printOne_x,printOne_y)
     printOne_x+=1
+    COLOUR=BGCOLOUR
     if printOne_val>1
-        pxl(printOne_x,printOne_y)
+        COLOUR=printOne_col
         printOne_val-=2
+    # else
     ifd
+    pxl(printOne_x,printOne_y)
     printOne_x+=1
+    COLOUR=BGCOLOUR
     if printOne_val>0
-        pxl(printOne_x,printOne_y)
+        COLOUR=printOne_col
     ifd
+    pxl(printOne_x,printOne_y)
     printOne_x+=1
-
+    COLOUR=printOne_col
 fcd
 def renderImg(renderImg_x,renderImg_y,renderImg_scale,renderImg_file)
     # debug(renderImg_file)

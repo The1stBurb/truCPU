@@ -1,0 +1,9 @@
+
+var x="abc"
+debug(x[0],0)
+debug(x[1],0)
+debug(x[2],0)
+x[0]="d"
+debug(x[0],0)
+x[1]="e"
+debug(x[1])

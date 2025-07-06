@@ -1,9 +1,12 @@
+from allVars import ltr
 from CPU import CPU,num
 from GPU import GPU
 from RAM import RAM
 from file_drive import drv
 from register import STPR,STACK,CLK
 from assemb import mac
+# from pygame import
+# import pygame 
 class COMPUTER:
     def __init__(self):
         self.ram=RAM().build(mac)                                    
@@ -29,16 +32,27 @@ class COMPUTER:
 class KEYBOARD:
     def __init__(self):
         self.kys=[]
+        self.shft=False
     def getKey(self):
         if len(self.kys)==0:return 0
         self.kys=[self.kys[-1]]
         return self.kys.pop()
     def readKey(self,ky):
-        if ky==1073741906:ky=40
-        elif ky==1073741903:ky=41
-        elif ky==1073741905:ky=51
-        elif ky==1073741904:ky=50
-        self.kys.append(ky)
+        if ky=="up":ky=40
+        elif ky=="right":ky=41
+        elif ky=="down":ky=51
+        elif ky=="left":ky=50
+        elif ky=="shift":
+            self.shft=True
+            return
+        elif ky=="space":ky=" "
+        if self.shft:
+            self.shft=False
+            ky=ky.upper()
+        # elif ky==pygame.
+        # input(ky)
+        # if ky==" ":input(ky+str(ltr.index(ky)))
+        if ky in ltr:self.kys.append(ltr.index(ky))
 #have a "ram" that every time a key is pressed, it saves it in ram and moves mem loc up and opposite for get key.
 class MOUSE:
     def __init__(self):
@@ -48,3 +62,10 @@ class MOUSE:
         self.midPrs=False
         self.rgtPrs=False
 #store mouse data
+# kys=KEYBOARD()
+# while True:
+#     for i in pygame.event.get():
+#         if i.type==pygame.KEYDOWN:
+#             kys.readKey(i.key)
+#             print(i.key)
+#-435, 67, 2354
