@@ -45,20 +45,32 @@ var usrx=0
 var usr=""
 var ky=0
 var pky=0
+var inpLen=0
+var ix=0
+flag clearUsr
+for i 0 <inpLen +=1
+    # debug(i,0)
+    ix=mult(i,5)
+    ix=add(ix,50)
+    print(usr[i],ix,50)
+frd
 flag inputText
+inpLen=len(usr)
+# debug(inpLen)
+# print(usrx,50)
 usrx=mult(usri,5)
 usrx=add(50,usrx)
-# print(usrx,50)
 flag inputText2
 ky=key()
 if ky==pky
     goto inputText2
 ifd
+debug(ky,0)
 if ky==105
     goto checks
 ifd
 if ky!=0
-    usr.push(ky)
+    # usr.push(ky)
     # debug(ky)
     print(ky,usrx,50)
     disp()
@@ -68,24 +80,55 @@ pky=ky
 sleep(10)
 goto inputText
 flag checks
+# debug(123)
 var username="Fish"
 var checkLen=0
-var inpLen=0
+# var inpLen=0
+# debug(126)
 inpLen=len(usr)
+# debug(125)
 var userLen=0
 userLen=len(username)
+# debug(124)
 if userLen!=inpLen
-goto wrongUser
+    goto wrongUser
 ifd
 # for i 0 <checkLen
 goto rightUser
 flag wrongUser
-fill(15,0,0)
-print("U")
-goto END
+fill(14,1,1)
+print("\ksp[u",3,60)
+print("\ksp[s",8,60)
+print("\ksp[e",13,60)
+print("\ksp[r",18,60)
+print("\ksp[n",23,60)
+print("\ksp[a",28,60)
+print("\ksp[m",33,60)
+print("\ksp[e",38,60)
+print("\ksp[w",48,60)
+print("\ksp[r",53,60)
+print("\ksp[o",58,60)
+print("\ksp[n",63,60)
+print("\ksp[g",68,60)
+disp()
+# usr.clear()
+# usr[0]="f"
+sleep(10)
+goto clearusr
 flag rightUser
-
-
+fill(1,14,1)
+print("C",3,60)
+print("o",8,60)
+print("r",13,60)
+print("r",18,60)
+print("e",23,60)
+print("c",28,60)
+print("t",33,60)
+print("!",38,60)
+sleep(5)
+goto START
+flag START
+loadFile("main.py")
 flag END
 # pxl(0,0)
 
@@ -317,3 +360,4 @@ def min(min_n1,min_n2)
     ifd
     return min_n2
 fcd
+# \ksp[u

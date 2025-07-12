@@ -43,7 +43,7 @@ for i in ltr:
     if not (i in fnts):bad.append(i)
 if len(bad)>0:
     print(f"ERROR: font \"{the_font}\" didn't parse the characters: {",".join([i for i in bad])}!")
-    quit()
+    # quit()
 with open(f"codeFiles/{the_font}.fnt","w")as f:
     st=bin_hex(byt(wd))+bin_hex(byt(hg))+bin_hex(byt(ceil((wd*hg)/bitSize)))
     for i in fnts:

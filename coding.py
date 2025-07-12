@@ -16,6 +16,8 @@ with open("codeFiles/boot.burb")as main:
     code=main.read().replace("width",str(av.scrnWdth)).replace("height",str(av.scrnHght)).replace(";","\n")
 for i in ltrx:
     code=code.replace(i,ltrx[i])
+# input(code)
+# input("\ksb[u"in ltrx)
 # code="""
 # var x=0
 # x=AND(3,1)
@@ -103,12 +105,12 @@ def lines(l,ifover=False):
             # input(l[0])
         t=typ(l[1])
         if t=="str":
-            # tok(f"ldav #{len(l[1])-2}")
-            for x,i in enumerate(l[1][1:len(l[1])-1]):
-                st=["var",f"{l[0]}[{x}]={ltr.index(i)}"]
-                input(st)
-                lines(st)
-            return
+            tok(f"ldav #{len(l[1])-2}")
+            # for x,i in enumerate(l[1][1:len(l[1])-1]):
+            #     st=["var",f"{l[0]}[{x}]={ltr.index(i)}"]
+            #     # input(st)
+            #     lines(st)
+            # return
         else:
             if l[1]in var:
                 tok(f"lda {l[1]}")
@@ -180,20 +182,21 @@ def lines(l,ifover=False):
         # if "."in l[1] and l[1].split(".")[0] in lit and lit[l[1].split(".")[0]]!="":
         #     l[1]=l[1].split(".")
         #     l[1]=f"{lit[l[1][0]]}.{l[1][1]}"
+        # if "\""in l[1]:l[1]=str(ltr.index(l[1][1]))
         # fm=""
         # lm=""
-        # if "/"in l[0]:
-        #     sl=[l[0].index("/"),l[0].index("/")]
-        #     l[0]=[l[0][:sl[0]],l[0][sl[0]+1:sl[1]],l[0][sl[1]+1:]]
-        #     input(l[0])
-        # print(l)
-        # if "["in l[1]:
-        #     par=l[1].index("[")
-        #     zd=l[1][par+1:].split(",")
-        #     st=f"{l[0]}={l[1][:par]}.__get__({zd[0]},{zd[1][:-1]})"
-        #     input(st)
-        #     lines([st])
-        #     return""
+        # # if "/"in l[0]:
+        # #     sl=[l[0].index("/"),l[0].index("/")]
+        # #     l[0]=[l[0][:sl[0]],l[0][sl[0]+1:sl[1]],l[0][sl[1]+1:]]
+        # #     input(l[0])
+        # # print(l)
+        # # if "["in l[1]:
+        #     # par=l[1].index("[")
+        #     # zd=l[1][par+1:].split(",")
+        #     # st=f"{l[0]}={l[1][:par]}.__get__({zd[0]},{zd[1][:-1]})"
+        #     # input(st)
+        #     # lines([st])
+        #     # return""
         # if "["in l[0]:
         #     b=l[0].index("[")
         #     # print(l[0],b)
@@ -276,7 +279,8 @@ def lines(l,ifover=False):
         # print(l)
         if l is None:return ""
         for i in range(len(l[0])):
-            if "["in l[0][i]:
+            if "["in l[0][i] and "]"in l[0][i]:
+                print(l[0][i])
                 p=[l[0][i].index("["),l[0][i].index("]")]
                 if l[0][i][p[0]+1:p[1]]in var:
                     l[0][i]=l[0][i][:p[0]+1]+var[l[0][i][p[0]+1:p[1]]][0]+l[0][i][p[1]:]
@@ -356,7 +360,9 @@ def lines(l,ifover=False):
             pass
         elif l[0][0]=="debug":
             l=l[0]
-            if len(l)>1:tok(f"lda {l[1]}")
+            if len(l)>1:
+                if l[1] in var:tok(f"lda {l[1]}")
+                else:tok(f"ldav #{l[1]}")
             if len(l)>2 and l[2]=="0":tok("dbg1")
             else:tok("dbg")
         elif l[0][0]=="getData":
@@ -371,6 +377,7 @@ def lines(l,ifover=False):
         elif l[0][0]=="len":
             l=l[0]
             tok(f"lda {l[1]}")
+            # input(l[1])
             tok(f"sta #{tk+3}")
         elif l[0][0]=="time":
             tok(f"ldav #{round((perf_counter_ns()/10**9)*10)}")#needs to be tenths of a second
@@ -399,6 +406,7 @@ def lines(l,ifover=False):
             l=l[0]
             tok(f"lda {l[1]}")#get the length
             tok("inca")
+            tok(f"sta {l[1]}")
             tok(f"ldbv {l[1]}")
             tok("add")
             # tok("ldbv #{ltr.index()}")
@@ -411,14 +419,28 @@ def lines(l,ifover=False):
         #         tok(f"setMouseX #{l[2]}")
         #         tok(f"setMouseY #{l[3]}")
         #     elif l[1]==""
+        # elif l[0][0]=="clear":
+
         else:
             l=l[0]
             for x,i in enumerate(l[1:]):
                 f="("in i
+                if "["in i:
+                    b=i.index("[")
+                    # print(l[0],b)
+                    fm=i[b+1:len(i)-1]
+                    i=i[:b]
                 if f:
                     lines([i])
                     tok("ldav #0")
-                elif i in var:tok(f"lda {i}")
+                elif i in var:
+                    if var[i][1]=="str":
+                        tok(f"ldav {i}")
+                        tok(f"ldbv #{fm}")
+                        tok("add")
+                        tok(f"sta #{tk+3}")
+                        tok("lda #0")
+                    else:tok(f"lda {i}")
                 elif len(i)>1 and i[0]=="\"":tok(f"ldav #{ltr.index(i[1])}")
                 else:tok(f"ldav #{i}")
                 f=fnc[l[0]][x]

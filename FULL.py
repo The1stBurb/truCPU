@@ -27,7 +27,7 @@ class COMPUTER:
             return "HLT"
         self.cpu.disp(self.ram,self.stk)
         self.gpu.tick(self.clk,self.stp,self.cpu.gpu.val,self.cpu.gpuop,(self.cpu.fc,self.cpu.fa,self.cpu.fe,self.cpu.fz))
-        print(f"running addr:{num(self.cpu.marx.val)}|{self.clk}|{self.stp.cur()}",end="\r")
+        print(f"|{self.clk}|{self.stp.cur()}|            running addr:{num(self.cpu.marx.val)}      ",end="\r")
 
 class KEYBOARD:
     def __init__(self):
@@ -46,14 +46,15 @@ class KEYBOARD:
             self.shft=True
             return
         elif ky=="space":ky=" "
-        elif ky=="enter":ky=105
+        elif ky=="return":ky=105
         if self.shft:
             self.shft=False
             ky=ky.upper()
         # elif ky==pygame.
         # input(ky)
         # if ky==" ":input(ky+str(ltr.index(ky)))
-        if ky in ltr:self.kys.append(ltr.index(ky))
+        if isinstance(ky,int):self.kys.append(ky)
+        elif ky in ltr:self.kys.append(ltr.index(ky))
 #have a "ram" that every time a key is pressed, it saves it in ram and moves mem loc up and opposite for get key.
 class MOUSE:
     def __init__(self):

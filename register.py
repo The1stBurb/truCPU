@@ -13,6 +13,9 @@ class REG:
         self.s2=self.s
         if self.s and val!=None:# and clks 
             self.val=val
+            for i in self.val:
+                if not i in "01":
+                    print(f"\nREG broke! contains an \"{i}\"!")
             # self.s=self.als
     def ena(self,busPass,clke=1):
         self.e2=self.e

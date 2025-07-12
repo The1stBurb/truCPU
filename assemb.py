@@ -99,6 +99,7 @@ mac = []
 # print(lines)
 for line in lines:
     line = line.strip()
+    print(" "*40,line," "*3,end="\r")
     if not line or line.startswith(";"):
         continue
 
@@ -141,7 +142,7 @@ for line in lines:
             b=byt(ltrs[arg[1:]])
             mac.append(b)
         elif arg.startswith("\""):
-            mac.append(byt(ltr.index(arg[1:])))
+            mac.append(byt(ltr.index(arg[1])))
         elif arg.startswith("#"):
             # if arg[1:]in ltrs:
             #     mac.append(byt(ltrs[arg[1:]]))
